@@ -8,6 +8,11 @@ function Home() {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    if (!isSupabaseConfigured) {
+      setLoading(false);
+      return;
+    }
+
     async function loadQueues() {
       const { data, error: fetchError } = await fetchQueues();
 

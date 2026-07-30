@@ -14,7 +14,7 @@ export async function fetchQueues() {
   }
 
   return supabase
-    .from('queues')
+    .from('usuarios')
     .select('*')
     .order('created_at', { ascending: false })
     .limit(8);
