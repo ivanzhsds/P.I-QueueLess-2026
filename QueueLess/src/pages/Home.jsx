@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import QueueList from '../components/QueueList';
-import { fetchQueues, isSupabaseConfigured } from '../services/supabase';
+import { fetchAppointments, isSupabaseConfigured } from '../services/supabase';
+import { useAuth } from '../context/AuthContext';
 
 function Home() {
+  const { user } = useAuth();
   const [queues, setQueues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -14,7 +16,7 @@ function Home() {
     }
 
     async function loadQueues() {
-      const { data, error: fetchError } = await fetchQueues();
+      const { data, error: fetchError } = await fetchAppointments(user.id);
 
       if (fetchError) {
         setError(fetchError.message);
@@ -25,7 +27,7 @@ function Home() {
     }
 
     loadQueues();
-  }, []);
+  }, [user]);
 
   return (
     <section className="page-content">
@@ -38,7 +40,7 @@ function Home() {
         <div className="warning-box">
           <strong>Supabase não configurado.</strong>
           <p>
-            Preencha o arquivo <code>.env</code> com <code>VITE_SUPABASE_URL</code> e <code>VITE_SUPABASE_ANON_KEY</code>.
+            Preencha o arquivo <code>.env</code> com <code>VITE_SUPABASE_URL</code> e <code>VITE_SUPABASE_PUBLISHABLE_KEY</code>.
           </p>
         </div>
       ) : null}

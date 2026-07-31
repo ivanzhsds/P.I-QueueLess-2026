@@ -11,7 +11,9 @@ function QueueList({ items = [] }) {
         <div className="queue-list-grid">
           {items.map((item) => (
             <article key={item.id ?? item.name ?? item.service} className="queue-card">
-              <strong>{item.name ?? item.service ?? 'Sem identificação'}</strong>
+              <strong>{item.cliente ?? item.name ?? item.service ?? 'Sem identificação'}</strong>
+              {item.servico && <p>Serviço: {item.servico}</p>}
+              {item.data && <p>{item.data}{item.hora ? ` às ${item.hora}` : ''}</p>}
               {item.status && <p>Status: {item.status}</p>}
               {item.description && <p>{item.description}</p>}
             </article>

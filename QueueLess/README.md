@@ -22,5 +22,5 @@ Adicione as variáveis de ambiente em `.env`:
 
 ```env
 VITE_SUPABASE_URL=https://seu-projeto.supabase.co
-VITE_SUPABASE_ANON_KEY=seu-valor-anon-key
+VITE_SUPABASE_PUBLISHABLE_KEY=seu-valor-publishable-key
 ```

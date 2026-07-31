@@ -142,3 +142,100 @@ code {
   padding: 2px 6px;
   border-radius: 6px;
 }
+
+.data-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 720px;
+  margin-top: 24px;
+}
+
+.data-form label {
+  display: grid;
+  gap: 7px;
+  color: #374151;
+  font-weight: 600;
+}
+
+.data-form input,
+.data-form select {
+  width: 100%;
+  min-height: 42px;
+  padding: 9px 11px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: #111827;
+  font: inherit;
+}
+
+.data-form input:focus,
+.data-form select:focus {
+  outline: 2px solid rgba(79, 70, 229, 0.25);
+  border-color: var(--primary);
+}
+
+.primary-button,
+.secondary-button,
+.danger-button {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary-button { background: var(--primary); color: #fff; }
+.secondary-button { background: #eef2ff; color: #3730a3; }
+.danger-button { background: #fee2e2; color: #b91c1c; }
+.primary-button:disabled,
+.secondary-button:disabled,
+.danger-button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.form-wide { grid-column: 1 / -1; }
+.form-footer { margin-top: 20px; color: var(--muted); }
+.form-footer a { color: var(--primary); font-weight: 600; }
+.success { color: #15803d; }
+
+.record-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.record-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.record-card p { margin: 6px 0 0; color: var(--muted); }
+
+.nav-button {
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+@media (max-width: 640px) {
+  .app-shell { padding: 12px; }
+  .nav-bar { padding: 14px; }
+  .page-content { padding: 18px; }
+  .data-form { grid-template-columns: 1fr; }
+  .form-wide { grid-column: auto; }
+  .record-card { align-items: flex-start; flex-direction: column; }
+}
