@@ -1,33 +1,40 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { loginUser, registerUser } from '../services/supabase';
+import { getCurrentSession, loginUser, logoutUser, registerUser, supabase } from '../services/supabase';
 
-const SESSION_KEY = 'queueless-session';
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {
-    const storedUser = sessionStorage.getItem(SESSION_KEY);
-    if (!storedUser) return null;
-
-    try {
-      return JSON.parse(storedUser);
-    } catch {
-      sessionStorage.removeItem(SESSION_KEY);
-      return null;
-    }
-  });
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user) {
-      sessionStorage.setItem(SESSION_KEY, JSON.stringify(user));
-    } else {
-      sessionStorage.removeItem(SESSION_KEY);
+    let mounted = true;
+
+    getCurrentSession()
+      .then(({ data }) => {
+        if (mounted) setUser(data.session?.user ?? null);
+      })
+      .finally(() => {
+        if (mounted) setLoading(false);
+      });
+
+    if (!supabase) {
+      return () => { mounted = false; };
     }
-  }, [user]);
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => {
+      mounted = false;
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
 
   async function signIn(credentials) {
     const result = await loginUser(credentials);
-    if (!result.error) setUser(result.data);
+    if (!result.error) setUser(result.data.user);
     return result;
   }
 
@@ -36,11 +43,11 @@ export function AuthProvider({ children }) {
   }
 
   function signOut() {
-    setUser(null);
+    return logoutUser();
   }
 
   return (
-    <AuthContext.Provider value={{ user, signIn, signUp, signOut }}>
+    <AuthContext.Provider value={{ user, loading, signIn, signUp, signOut }}>
       {children}
     </AuthContext.Provider>
   );

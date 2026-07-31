@@ -1,12 +1,32 @@
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey =
+  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+  import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+function isValidSupabaseUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === 'https:' || url.protocol === 'http:';
+  } catch {
+    return false;
+  }
+}
 
-export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
+function isPlaceholder(value) {
+  return /seu-projeto|sua-chave|seu-valor|example\.supabase\.co/i.test(value);
+}
+
+export const isSupabaseConfigured = Boolean(
+  supabaseUrl &&
+  supabaseKey &&
+  isValidSupabaseUrl(supabaseUrl) &&
+  !isPlaceholder(supabaseUrl) &&
+  !isPlaceholder(supabaseKey),
+);
 export const supabase = isSupabaseConfigured
-  ? createClient(supabaseUrl, supabaseAnonKey)
+  ? createClient(supabaseUrl.trim(), supabaseKey.trim())
   : null;
 
 function unavailableError() {
@@ -18,27 +38,11 @@ export async function registerUser({ nome, email, senha }) {
     return { data: null, error: unavailableError() };
   }
 
-  const normalizedEmail = email.trim().toLowerCase();
-  const { data: existingUser, error: lookupError } = await supabase
-    .from('usuarios')
-    .select('id')
-    .eq('email', normalizedEmail)
-    .maybeSingle();
-
-  if (lookupError) return { data: null, error: lookupError };
-  if (existingUser) {
-    return { data: null, error: new Error('Este email já está cadastrado.') };
-  }
-
-  return supabase
-    .from('usuarios')
-    .insert({
-      nome: nome.trim(),
-      email: normalizedEmail,
-      senha,
-    })
-    .select('id, nome, email, created_at')
-    .single();
+  return supabase.auth.signUp({
+    email: email.trim().toLowerCase(),
+    password: senha,
+    options: { data: { nome: nome.trim() } },
+  });
 }
 
 export async function loginUser({ email, senha }) {
@@ -46,16 +50,26 @@ export async function loginUser({ email, senha }) {
     return { data: null, error: unavailableError() };
   }
 
-  const { data, error } = await supabase
-    .from('usuarios')
-    .select('id, nome, email, created_at')
-    .eq('email', email.trim().toLowerCase())
-    .eq('senha', senha)
-    .maybeSingle();
+  return supabase.auth.signInWithPassword({
+    email: email.trim().toLowerCase(),
+    password: senha,
+  });
+}
 
-  if (error) return { data: null, error };
-  if (!data) return { data: null, error: new Error('Email ou senha inválidos.') };
-  return { data, error: null };
+export async function logoutUser() {
+  if (!isSupabaseConfigured || !supabase) {
+    return { error: unavailableError() };
+  }
+
+  return supabase.auth.signOut();
+}
+
+export async function getCurrentSession() {
+  if (!isSupabaseConfigured || !supabase) {
+    return { data: { session: null }, error: unavailableError() };
+  }
+
+  return supabase.auth.getSession();
 }
 
 export async function fetchAppointments(userId) {
