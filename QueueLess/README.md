@@ -1,6 +1,6 @@
-# QueueLess
+# Cuida+
 
-Projeto único React + Vite para gerenciamento de filas e agendamentos.
+Aplicativo para monitoramento e apoio ao autocuidado de pessoas com hipertensão e/ou diabetes.
 
 ## Estrutura
 

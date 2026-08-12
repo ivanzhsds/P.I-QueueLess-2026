@@ -34,8 +34,8 @@ function Login() {
 
   return (
     <section className="page-content">
-      <h1>Login</h1>
-      <p className="page-description">Acesse o painel do QueueLess.</p>
+      <h1>Bem-vindo ao Cuida+</h1>
+      <p className="page-description">Seu cuidado, mais simples. Acesse sua conta para monitorar sua saúde.</p>
       {!isSupabaseConfigured && <p className="error">Supabase não está configurado.</p>}
       <form className="data-form" onSubmit={handleSubmit}>
         <label>Email<input type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} /></label>

@@ -2,10 +2,14 @@ import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const navItems = [
-  { label: 'Home', path: '/' },
-  { label: 'Agendamentos', path: '/agendamentos' },
-  { label: 'Serviços', path: '/servicos' },
+  { label: 'Início', path: '/' },
+  { label: 'Pressão', path: '/pressao' },
+  { label: 'Glicemia', path: '/glicemia' },
+  { label: 'Medicamentos', path: '/medicamentos' },
   { label: 'Histórico', path: '/historico' },
+  { label: 'Consultas', path: '/consultas' },
+  { label: 'Atividades', path: '/atividades' },
+  { label: 'Perfil', path: '/perfil' },
 ];
 
 function NavBar() {
@@ -13,7 +17,7 @@ function NavBar() {
 
   return (
     <header className="nav-bar">
-      <div className="nav-brand">QueueLess</div>
+      <div className="nav-brand">Cuida+</div>
       <nav className="nav-links">
         {navItems.map((item) => (
           <NavLink

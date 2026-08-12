@@ -5,7 +5,13 @@ import { useAuth } from '../context/AuthContext';
 function Cadastro() {
   const { signUp } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ nome: '', email: '', senha: '', confirmarSenha: '' });
+  const [form, setForm] = useState({ 
+    nome: '', 
+    email: '', 
+    senha: '', 
+    confirmarSenha: '',
+    tipoAcompanhamento: 'ambos'
+  });
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
@@ -36,15 +42,22 @@ function Cadastro() {
   return (
     <section className="page-content">
       <h1>Cadastro</h1>
-      <p className="page-description">Crie sua conta para gerenciar os atendimentos.</p>
+      <p className="page-description">Crie sua conta no Cuida+ para começar a monitorar sua saúde.</p>
       <form className="data-form" onSubmit={handleSubmit}>
         <label>Nome<input value={form.nome} onChange={(event) => setForm({ ...form, nome: event.target.value })} /></label>
         <label>Email<input type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} /></label>
         <label>Senha<input type="password" value={form.senha} onChange={(event) => setForm({ ...form, senha: event.target.value })} /></label>
         <label>Confirmar senha<input type="password" value={form.confirmarSenha} onChange={(event) => setForm({ ...form, confirmarSenha: event.target.value })} /></label>
-        {error && <p className="error">{error}</p>}
-        {success && <p className="success">{success}</p>}
-        <button className="primary-button" type="submit" disabled={loading}>{loading ? 'Salvando...' : 'Criar cadastro'}</button>
+        <label className="form-wide">Acompanhamento
+          <select value={form.tipoAcompanhamento} onChange={(event) => setForm({ ...form, tipoAcompanhamento: event.target.value })}>
+            <option value="pressao">Hipertensão</option>
+            <option value="glicemia">Diabetes</option>
+            <option value="ambos">Hipertensão e Diabetes</option>
+          </select>
+        </label>
+        {error && <p className="error form-wide">{error}</p>}
+        {success && <p className="success form-wide">{success}</p>}
+        <button className="primary-button form-wide" type="submit" disabled={loading}>{loading ? 'Salvando...' : 'Criar cadastro'}</button>
       </form>
       <p className="form-footer">Já tem conta? <Link to="/login">Entrar</Link></p>
     </section>
