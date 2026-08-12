@@ -33,7 +33,7 @@ function unavailableError() {
   return new Error('Supabase não está configurado.');
 }
 
-export async function registerUser({ nome, email, senha }) {
+export async function registerUser({ nome, email, senha, tipoAcompanhamento = 'ambos' }) {
   if (!isSupabaseConfigured || !supabase) {
     return { data: null, error: unavailableError() };
   }
@@ -41,7 +41,12 @@ export async function registerUser({ nome, email, senha }) {
   return supabase.auth.signUp({
     email: email.trim().toLowerCase(),
     password: senha,
-    options: { data: { nome: nome.trim() } },
+    options: { 
+      data: { 
+        nome: nome.trim(),
+        tipoAcompanhamento: tipoAcompanhamento
+      } 
+    },
   });
 }
 
