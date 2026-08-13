@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
@@ -13,10 +13,13 @@ import Perfil from '../pages/Perfil';
 import ProtectedRoute from './ProtectedRoute';
 
 export default function AppRoutes() {
+  const location = useLocation();
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/cadastro';
+
   return (
     <>
-      <NavBar />
-      <main className="app-shell">
+      {!isAuthPage && <NavBar />}
+      <main className={isAuthPage ? 'app-shell auth-shell' : 'app-shell'}>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />

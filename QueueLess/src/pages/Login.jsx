@@ -33,17 +33,47 @@ function Login() {
   }
 
   return (
-    <section className="page-content">
-      <h1>Bem-vindo ao Cuida+</h1>
-      <p className="page-description">Seu cuidado, mais simples. Acesse sua conta para monitorar sua saúde.</p>
-      {!isSupabaseConfigured && <p className="error">Supabase não está configurado.</p>}
-      <form className="data-form" onSubmit={handleSubmit}>
-        <label>Email<input type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} /></label>
-        <label>Senha<input type="password" value={form.senha} onChange={(event) => setForm({ ...form, senha: event.target.value })} /></label>
-        {error && <p className="error">{error}</p>}
-        <button className="primary-button" type="submit" disabled={loading}>{loading ? 'Entrando...' : 'Entrar'}</button>
-      </form>
-      <p className="form-footer">Ainda não tem conta? <Link to="/cadastro">Cadastre-se</Link></p>
+    <section className="auth-page">
+      <div className="auth-card">
+        <img src="/cuida-logo.svg" alt="Cuida+" className="auth-logo" />
+        <div className="auth-brand" aria-label="Cuida+">Cuida+</div>
+
+        {!isSupabaseConfigured && <p className="error auth-message">Supabase não está configurado.</p>}
+
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <label className="auth-field">
+            <span className="auth-field-label">Email</span>
+            <input
+              type="email"
+              value={form.email}
+              onChange={(event) => setForm({ ...form, email: event.target.value })}
+              className="auth-input"
+              placeholder="Email"
+            />
+          </label>
+
+          <label className="auth-field">
+            <span className="auth-field-label">Senha</span>
+            <input
+              type="password"
+              value={form.senha}
+              onChange={(event) => setForm({ ...form, senha: event.target.value })}
+              className="auth-input"
+              placeholder="Senha"
+            />
+          </label>
+
+          {error && <p className="error auth-message">{error}</p>}
+
+          <button className="auth-button" type="submit" disabled={loading}>
+            {loading ? 'Entrando...' : 'Entrar'}
+          </button>
+        </form>
+
+        <p className="auth-switch">
+          Ainda não tem conta? <Link to="/cadastro">Criar Conta</Link>
+        </p>
+      </div>
     </section>
   );
 }

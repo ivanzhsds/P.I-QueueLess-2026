@@ -40,26 +40,80 @@ function Cadastro() {
   }
 
   return (
-    <section className="page-content">
-      <h1>Cadastro</h1>
-      <p className="page-description">Crie sua conta no Cuida+ para começar a monitorar sua saúde.</p>
-      <form className="data-form" onSubmit={handleSubmit}>
-        <label>Nome<input value={form.nome} onChange={(event) => setForm({ ...form, nome: event.target.value })} /></label>
-        <label>Email<input type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} /></label>
-        <label>Senha<input type="password" value={form.senha} onChange={(event) => setForm({ ...form, senha: event.target.value })} /></label>
-        <label>Confirmar senha<input type="password" value={form.confirmarSenha} onChange={(event) => setForm({ ...form, confirmarSenha: event.target.value })} /></label>
-        <label className="form-wide">Acompanhamento
-          <select value={form.tipoAcompanhamento} onChange={(event) => setForm({ ...form, tipoAcompanhamento: event.target.value })}>
-            <option value="pressao">Hipertensão</option>
-            <option value="glicemia">Diabetes</option>
-            <option value="ambos">Hipertensão e Diabetes</option>
-          </select>
-        </label>
-        {error && <p className="error form-wide">{error}</p>}
-        {success && <p className="success form-wide">{success}</p>}
-        <button className="primary-button form-wide" type="submit" disabled={loading}>{loading ? 'Salvando...' : 'Criar cadastro'}</button>
-      </form>
-      <p className="form-footer">Já tem conta? <Link to="/login">Entrar</Link></p>
+    <section className="auth-page">
+      <div className="auth-card auth-card--register">
+        <img src="/cuida-logo.svg" alt="Cuida+" className="auth-logo" />
+        <div className="auth-brand" aria-label="Cuida+">Cuida+</div>
+
+        <form className="auth-form auth-form--register" onSubmit={handleSubmit}>
+          <label className="auth-field">
+            <span className="auth-field-label">Nome</span>
+            <input
+              value={form.nome}
+              onChange={(event) => setForm({ ...form, nome: event.target.value })}
+              className="auth-input"
+              placeholder="Nome"
+            />
+          </label>
+
+          <label className="auth-field">
+            <span className="auth-field-label">Email</span>
+            <input
+              type="email"
+              value={form.email}
+              onChange={(event) => setForm({ ...form, email: event.target.value })}
+              className="auth-input"
+              placeholder="Email"
+            />
+          </label>
+
+          <label className="auth-field">
+            <span className="auth-field-label">Senha</span>
+            <input
+              type="password"
+              value={form.senha}
+              onChange={(event) => setForm({ ...form, senha: event.target.value })}
+              className="auth-input"
+              placeholder="Senha"
+            />
+          </label>
+
+          <label className="auth-field">
+            <span className="auth-field-label">Confirmar senha</span>
+            <input
+              type="password"
+              value={form.confirmarSenha}
+              onChange={(event) => setForm({ ...form, confirmarSenha: event.target.value })}
+              className="auth-input"
+              placeholder="Confirmar senha"
+            />
+          </label>
+
+          <label className="auth-field">
+            <span className="auth-field-label">Acompanhamento</span>
+            <select
+              value={form.tipoAcompanhamento}
+              onChange={(event) => setForm({ ...form, tipoAcompanhamento: event.target.value })}
+              className="auth-input auth-select"
+            >
+              <option value="pressao">Hipertensão</option>
+              <option value="glicemia">Diabetes</option>
+              <option value="ambos">Hipertensão e Diabetes</option>
+            </select>
+          </label>
+
+          {error && <p className="error auth-message">{error}</p>}
+          {success && <p className="success auth-message">{success}</p>}
+
+          <button className="auth-button" type="submit" disabled={loading}>
+            {loading ? 'Salvando...' : 'Criar cadastro'}
+          </button>
+        </form>
+
+        <p className="auth-switch">
+          Já tem conta? <Link to="/login">Entrar</Link>
+        </p>
+      </div>
     </section>
   );
 }
