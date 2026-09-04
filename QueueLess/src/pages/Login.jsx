@@ -38,13 +38,16 @@ function Login() {
         <img src="/cuida-logo.svg" alt="Cuida+" className="auth-logo" />
         <div className="auth-brand" aria-label="Cuida+">Cuida+</div>
 
-        {!isSupabaseConfigured && <p className="error auth-message">Supabase não está configurado.</p>}
+        {!isSupabaseConfigured && <p className="error auth-message" role="status">Supabase não está configurado.</p>}
 
         <form className="auth-form" onSubmit={handleSubmit}>
           <label className="auth-field">
             <span className="auth-field-label">Email</span>
             <input
               type="email"
+              id="login-email"
+              name="email"
+              autoComplete="email"
               value={form.email}
               onChange={(event) => setForm({ ...form, email: event.target.value })}
               className="auth-input"
@@ -56,6 +59,9 @@ function Login() {
             <span className="auth-field-label">Senha</span>
             <input
               type="password"
+              id="login-password"
+              name="senha"
+              autoComplete="current-password"
               value={form.senha}
               onChange={(event) => setForm({ ...form, senha: event.target.value })}
               className="auth-input"
@@ -63,7 +69,7 @@ function Login() {
             />
           </label>
 
-          {error && <p className="error auth-message">{error}</p>}
+          {error && <p className="error auth-message" role="alert">{error}</p>}
 
           <button className="auth-button" type="submit" disabled={loading}>
             {loading ? 'Entrando...' : 'Entrar'}

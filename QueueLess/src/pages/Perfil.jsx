@@ -15,7 +15,7 @@ function Perfil() {
       <h1>Meu Perfil</h1>
       <p className="page-description">Informações da sua conta.</p>
       
-      <div className="record-card" style={{ marginTop: '20px' }}>
+      <div className="record-card profile-first-card">
         <div>
           <strong>Nome:</strong>
           <p>{user?.user_metadata?.nome || 'Não preenchido'}</p>
@@ -36,7 +36,7 @@ function Perfil() {
         </div>
       </div>
 
-      <div style={{ marginTop: '24px' }}>
+      <div className="profile-actions">
         <button className="danger-button" onClick={handleLogout}>Sair da Conta</button>
       </div>
     </section>

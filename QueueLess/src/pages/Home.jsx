@@ -12,6 +12,13 @@ function Home() {
   const [proximaConsulta, setProximaConsulta] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  function handleCardKeyDown(event, path) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      navigate(path);
+    }
+  }
+
   useEffect(() => {
     if (!isSupabaseConfigured) {
       setLoading(false);
@@ -57,89 +64,89 @@ function Home() {
       </div>
 
       {!isSupabaseConfigured && (
-        <div className="warning-box" style={{ marginTop: '20px' }}>
+        <div className="warning-box">
           <strong>Supabase não configurado.</strong>
           <p>Preencha o arquivo <code>.env</code> com <code>VITE_SUPABASE_URL</code> e <code>VITE_SUPABASE_PUBLISHABLE_KEY</code>.</p>
         </div>
       )}
 
-      <div className="queue-list-grid" style={{ marginTop: '24px' }}>
-        <div className="queue-card" style={{ cursor: 'pointer' }} onClick={() => navigate('/pressao')}>
+      <div className="queue-list-grid">
+        <div className="queue-card clickable-card" role="button" tabIndex="0" onClick={() => navigate('/pressao')} onKeyDown={(event) => handleCardKeyDown(event, '/pressao')}>
           <strong>Última Pressão</strong>
           {ultimaPressao ? (
             <>
-              <p style={{ fontSize: '1.5rem', margin: '10px 0 5px', color: '#2563EB', fontWeight: 'bold' }}>
+              <p className="metric-value">
                 {ultimaPressao.sistolica}/{ultimaPressao.diastolica} mmHg
               </p>
-              <p style={{ fontSize: '0.875rem', color: '#64748B' }}>{ultimaPressao.data}</p>
+              <p className="metric-label">{ultimaPressao.data}</p>
             </>
           ) : (
-            <p style={{ color: '#64748B', marginTop: '10px' }}>Nenhum registro</p>
+            <p className="empty-card-state">Nenhum registro</p>
           )}
         </div>
 
-        <div className="queue-card" style={{ cursor: 'pointer' }} onClick={() => navigate('/glicemia')}>
+        <div className="queue-card clickable-card" role="button" tabIndex="0" onClick={() => navigate('/glicemia')} onKeyDown={(event) => handleCardKeyDown(event, '/glicemia')}>
           <strong>Última Glicemia</strong>
           {ultimaGlicemia ? (
             <>
-              <p style={{ fontSize: '1.5rem', margin: '10px 0 5px', color: '#2563EB', fontWeight: 'bold' }}>
+              <p className="metric-value">
                 {ultimaGlicemia.valor} mg/dL
               </p>
-              <p style={{ fontSize: '0.875rem', color: '#64748B' }}>{ultimaGlicemia.data}</p>
+              <p className="metric-label">{ultimaGlicemia.data}</p>
             </>
           ) : (
-            <p style={{ color: '#64748B', marginTop: '10px' }}>Nenhum registro</p>
+            <p className="empty-card-state">Nenhum registro</p>
           )}
         </div>
 
-        <div className="queue-card" style={{ cursor: 'pointer' }} onClick={() => navigate('/medicamentos')}>
+        <div className="queue-card clickable-card" role="button" tabIndex="0" onClick={() => navigate('/medicamentos')} onKeyDown={(event) => handleCardKeyDown(event, '/medicamentos')}>
           <strong>Próximo Medicamento</strong>
           {proximoMedicamento ? (
             <>
-              <p style={{ fontSize: '1rem', margin: '10px 0 5px', fontWeight: 'bold' }}>
+              <p className="metric-value metric-value--compact">
                 {proximoMedicamento.nome}
               </p>
-              <p style={{ fontSize: '0.875rem', color: '#64748B' }}>{proximoMedicamento.horario}</p>
+              <p className="metric-label">{proximoMedicamento.horario}</p>
             </>
           ) : (
-            <p style={{ color: '#64748B', marginTop: '10px' }}>Nenhum medicamento</p>
+            <p className="empty-card-state">Nenhum medicamento</p>
           )}
         </div>
 
-        <div className="queue-card" style={{ cursor: 'pointer' }} onClick={() => navigate('/consultas')}>
+        <div className="queue-card clickable-card" role="button" tabIndex="0" onClick={() => navigate('/consultas')} onKeyDown={(event) => handleCardKeyDown(event, '/consultas')}>
           <strong>Próxima Consulta</strong>
           {proximaConsulta ? (
             <>
-              <p style={{ fontSize: '1rem', margin: '10px 0 5px', fontWeight: 'bold' }}>
+              <p className="metric-value metric-value--compact">
                 {proximaConsulta.tipo}
               </p>
-              <p style={{ fontSize: '0.875rem', color: '#64748B' }}>{proximaConsulta.data} às {proximaConsulta.horario}</p>
+              <p className="metric-label">{proximaConsulta.data} às {proximaConsulta.horario}</p>
             </>
           ) : (
-            <p style={{ color: '#64748B', marginTop: '10px' }}>Nenhuma consulta</p>
+            <p className="empty-card-state">Nenhuma consulta</p>
           )}
         </div>
       </div>
 
-      <div style={{ marginTop: '32px' }}>
+      <div className="section-spaced">
         <h2>Atalhos Rápidos</h2>
         <div className="queue-list-grid">
-          <button className="primary-button" style={{ padding: '16px', textAlign: 'center', cursor: 'pointer' }} onClick={() => navigate('/pressao')}>
+          <button className="primary-button shortcut-button" onClick={() => navigate('/pressao')}>
             📊 Registrar Pressão
           </button>
-          <button className="primary-button" style={{ padding: '16px', textAlign: 'center', cursor: 'pointer' }} onClick={() => navigate('/glicemia')}>
+          <button className="primary-button shortcut-button" onClick={() => navigate('/glicemia')}>
             📈 Registrar Glicemia
           </button>
-          <button className="primary-button" style={{ padding: '16px', textAlign: 'center', cursor: 'pointer' }} onClick={() => navigate('/medicamentos')}>
+          <button className="primary-button shortcut-button" onClick={() => navigate('/medicamentos')}>
             💊 Medicamentos
           </button>
-          <button className="primary-button" style={{ padding: '16px', textAlign: 'center', cursor: 'pointer' }} onClick={() => navigate('/consultas')}>
+          <button className="primary-button shortcut-button" onClick={() => navigate('/consultas')}>
             📅 Consultas
           </button>
-          <button className="primary-button" style={{ padding: '16px', textAlign: 'center', cursor: 'pointer' }} onClick={() => navigate('/atividades')}>
+          <button className="primary-button shortcut-button" onClick={() => navigate('/atividades')}>
             🏃 Atividades
           </button>
-          <button className="primary-button" style={{ padding: '16px', textAlign: 'center', cursor: 'pointer' }} onClick={() => navigate('/historico')}>
+          <button className="primary-button shortcut-button" onClick={() => navigate('/historico')}>
             📋 Histórico
           </button>
         </div>

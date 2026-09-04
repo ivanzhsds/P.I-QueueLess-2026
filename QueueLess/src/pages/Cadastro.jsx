@@ -49,6 +49,9 @@ function Cadastro() {
           <label className="auth-field">
             <span className="auth-field-label">Nome</span>
             <input
+              id="register-name"
+              name="nome"
+              autoComplete="name"
               value={form.nome}
               onChange={(event) => setForm({ ...form, nome: event.target.value })}
               className="auth-input"
@@ -60,6 +63,9 @@ function Cadastro() {
             <span className="auth-field-label">Email</span>
             <input
               type="email"
+              id="register-email"
+              name="email"
+              autoComplete="email"
               value={form.email}
               onChange={(event) => setForm({ ...form, email: event.target.value })}
               className="auth-input"
@@ -71,6 +77,9 @@ function Cadastro() {
             <span className="auth-field-label">Senha</span>
             <input
               type="password"
+              id="register-password"
+              name="senha"
+              autoComplete="new-password"
               value={form.senha}
               onChange={(event) => setForm({ ...form, senha: event.target.value })}
               className="auth-input"
@@ -82,6 +91,9 @@ function Cadastro() {
             <span className="auth-field-label">Confirmar senha</span>
             <input
               type="password"
+              id="register-password-confirmation"
+              name="confirmarSenha"
+              autoComplete="new-password"
               value={form.confirmarSenha}
               onChange={(event) => setForm({ ...form, confirmarSenha: event.target.value })}
               className="auth-input"
@@ -92,6 +104,8 @@ function Cadastro() {
           <label className="auth-field">
             <span className="auth-field-label">Acompanhamento</span>
             <select
+              id="register-follow-up"
+              name="tipoAcompanhamento"
               value={form.tipoAcompanhamento}
               onChange={(event) => setForm({ ...form, tipoAcompanhamento: event.target.value })}
               className="auth-input auth-select"
@@ -102,8 +116,8 @@ function Cadastro() {
             </select>
           </label>
 
-          {error && <p className="error auth-message">{error}</p>}
-          {success && <p className="success auth-message">{success}</p>}
+          {error && <p className="error auth-message" role="alert">{error}</p>}
+          {success && <p className="success auth-message" role="status">{success}</p>}
 
           <button className="auth-button" type="submit" disabled={loading}>
             {loading ? 'Salvando...' : 'Criar cadastro'}

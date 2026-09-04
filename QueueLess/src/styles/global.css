@@ -1,17 +1,42 @@
 :root {
   color-scheme: light;
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: #F8FAFC;
-  color: #0F172A;
+  background: #f8fafc;
+  color: #0f172a;
   --surface: #ffffff;
+  --surface-muted: #f8fafc;
   --primary: #2563EB;
-  --primary-auth: #12b5a5;
-  --primary-auth-hover: #0fa394;
+  --primary-hover: #1d4ed8;
   --dark: #1E3A8A;
   --success: #10B981;
+  --success-text: #15803d;
   --danger: #EF4444;
+  --danger-text: #b91c1c;
+  --warning-surface: #fffbeb;
+  --warning-border: #f5d0a9;
+  --secondary-surface: #eff6ff;
+  --secondary-text: #1e40af;
   --muted: #64748B;
+  --text: #0f172a;
+  --text-subtle: #374151;
   --border: #e5e7eb;
+  --border-strong: #e2e8f0;
+  --focus-ring: rgba(37, 99, 235, 0.25);
+  --selection: rgba(37, 99, 235, 0.25);
+  --font-size-small: 0.875rem;
+  --font-size-label: 0.875rem;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --radius-small: 6px;
+  --radius-control: 10px;
+  --radius-card: 16px;
+  --radius-panel: 20px;
+  --shadow-panel: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-focus: 0 0 0 3px var(--focus-ring);
+  --transition-fast: 0.2s ease;
 }
 
 *, *::before, *::after {
@@ -24,12 +49,12 @@ html, body, #root {
 
 body {
   margin: 0;
-  background: #F8FAFC;
-  color: #0F172A;
+  background: var(--surface-muted);
+  color: var(--text);
 }
 
-body::selection {
-  background: rgba(37, 99, 235, 0.25);
+::selection {
+  background: var(--selection);
 }
 
 a {
@@ -59,7 +84,7 @@ a {
   justify-content: space-between;
   gap: 12px;
   padding: 18px 24px;
-  background: #ffffff;
+  background: var(--surface);
   border-bottom: 1px solid var(--border);
 }
 
@@ -94,10 +119,10 @@ a {
 .page-content {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: var(--radius-panel);
   padding: 24px;
   margin-top: 24px;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  box-shadow: var(--shadow-panel);
 }
 
 .page-description {
@@ -122,9 +147,9 @@ a {
 }
 
 .queue-card {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-card);
   padding: 20px;
 }
 
@@ -144,8 +169,8 @@ a {
   margin-top: 24px;
   padding: 18px;
   border-radius: 16px;
-  background: #fffbeb;
-  border: 1px solid #f5d0a9;
+  background: var(--warning-surface);
+  border: 1px solid var(--warning-border);
 }
 
 code {
@@ -183,7 +208,7 @@ code {
 
 .data-form input:focus,
 .data-form select:focus {
-  outline: 2px solid rgba(37, 99, 235, 0.25);
+  outline: 2px solid var(--focus-ring);
   border-color: var(--primary);
 }
 
@@ -191,7 +216,7 @@ code {
 .secondary-button,
 .danger-button {
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--radius-control);
   padding: 10px 14px;
   font: inherit;
   font-weight: 600;
@@ -199,8 +224,14 @@ code {
 }
 
 .primary-button { background: var(--primary); color: #fff; }
-.secondary-button { background: #eff6ff; color: #1e40af; }
-.danger-button { background: #fee2e2; color: #b91c1c; }
+.secondary-button { background: var(--secondary-surface); color: var(--secondary-text); }
+.danger-button { background: #fee2e2; color: var(--danger-text); }
+.primary-button:hover { background: var(--primary-hover); }
+.primary-button:focus-visible,
+.secondary-button:focus-visible,
+.danger-button:focus-visible,
+.nav-link:focus-visible,
+.auth-button:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
 .primary-button:disabled,
 .secondary-button:disabled,
 .danger-button:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -213,9 +244,9 @@ code {
 }
 
 .form-wide { grid-column: 1 / -1; }
-.form-footer { margin-top: 20px; color: var(--muted); }
+.form-footer { margin-top: var(--space-5); color: var(--muted); }
 .form-footer a { color: var(--primary); font-weight: 600; }
-.success { color: #15803d; }
+.success { color: var(--success-text); }
 .success-badge { background: rgba(16, 185, 129, 0.1); color: var(--success); padding: 4px 8px; border-radius: 6px; font-size: 0.875rem; }
 .warning-badge { background: rgba(239, 68, 68, 0.1); color: var(--danger); padding: 4px 8px; border-radius: 6px; font-size: 0.875rem; }
 
@@ -225,30 +256,26 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 24px;
-  box-sizing: border-box;
-  background: linear-gradient(160deg, #173d3a 0%, #174946 38%, #352f2b 70%, #5b211c 100%);
-  font-family: Arial, Helvetica, sans-serif;
+  padding: var(--space-6);
+  background: var(--surface-muted);
 }
 
 .auth-card {
   width: 100%;
   max-width: 390px;
-  min-height: 520px;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 42px 38px;
-  box-sizing: border-box;
-  background: rgba(15, 23, 42, 0.38);
-  border-radius: 14px;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
 }
 
 .auth-card--register {
-  min-height: 570px;
+  max-width: 440px;
 }
 
 .auth-logo {
@@ -262,17 +289,16 @@ code {
 .auth-brand {
   font-size: clamp(2rem, 3vw, 2.5rem);
   font-weight: 700;
-  letter-spacing: -0.06em;
-  color: #ffffff;
+  color: var(--primary);
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: var(--space-6);
 }
 
 .auth-form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .auth-form--register {
@@ -286,8 +312,8 @@ code {
 }
 
 .auth-field-label {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.78rem;
+  color: var(--text-subtle);
+  font-size: var(--font-size-label);
   font-weight: 600;
 }
 
@@ -297,24 +323,23 @@ code {
   height: 44px;
   padding: 0 14px;
   box-sizing: border-box;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 5px;
-  background: rgba(255, 255, 255, 0.16);
-  color: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--text);
   outline: none;
-  font-size: 14px;
-  transition: 0.2s ease;
+  font: inherit;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .auth-input::placeholder {
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--muted);
 }
 
 .auth-input:focus,
 .auth-select:focus {
-  border-color: #14b8a6;
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 0 2px rgba(20, 184, 166, 0.15);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-focus);
 }
 
 .auth-select {
@@ -325,31 +350,31 @@ code {
 .auth-button {
   width: 100%;
   height: 44px;
-  margin-top: 8px;
+  margin-top: var(--space-2);
   border: none;
-  border-radius: 9px;
-  background: var(--primary-auth);
+  border-radius: var(--radius-control);
+  background: var(--primary);
   color: #ffffff;
-  font-size: 15px;
+  font: inherit;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: background var(--transition-fast), transform var(--transition-fast);
 }
 
 .auth-button:hover {
-  background: var(--primary-auth-hover);
+  background: var(--primary-hover);
   transform: translateY(-1px);
 }
 
 .auth-switch {
-  margin-top: 14px;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 13px;
+  margin-top: var(--space-4);
+  color: var(--muted);
+  font-size: var(--font-size-small);
   text-align: center;
 }
 
 .auth-switch a {
-  color: #ffffff;
+  color: var(--primary);
   font-weight: 600;
 }
 
@@ -360,30 +385,24 @@ code {
 }
 
 .auth-message.success {
-  color: #d7ffe9;
+  color: var(--success-text);
 }
 
 .auth-message.error {
-  color: #ffd8d8;
+  color: var(--danger-text);
 }
 
 @media (max-width: 480px) {
   .auth-page {
-    padding: 16px;
+    padding: var(--space-4);
   }
 
   .auth-card {
     max-width: 100%;
-    min-height: 520px;
     padding: 35px 25px;
   }
 
   .auth-card--register {
-    min-height: 560px;
-  }
-
-  .auth-brand {
-    margin-bottom: 24px;
   }
 }
 
@@ -401,10 +420,38 @@ code {
   padding: 16px;
   border: 1px solid var(--border);
   border-radius: 12px;
-  background: #f8fafc;
+  background: var(--surface-muted);
 }
 
 .record-card p { margin: 6px 0 0; color: var(--muted); }
+
+.filter-field {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--text-subtle);
+  font-weight: 600;
+}
+
+.filter-select {
+  min-height: 42px;
+  padding: 8px 11px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-control);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+.filter-select:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+  border-color: var(--primary);
+}
+
+.history-section,
+.history-empty-state,
+.profile-actions { margin-top: var(--space-6); }
+.profile-first-card { margin-top: var(--space-5); }
 
 .nav-button {
   border: 0;
@@ -419,4 +466,45 @@ code {
   .data-form { grid-template-columns: 1fr; }
   .form-wide { grid-column: auto; }
   .record-card { align-items: flex-start; flex-direction: column; }
+}
+
+.clickable-card {
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.clickable-card:hover,
+.clickable-card:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.metric-value {
+  margin: 10px 0 5px;
+  color: var(--primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.metric-value--compact {
+  font-size: 1rem;
+}
+
+.metric-label,
+.empty-card-state {
+  color: var(--muted);
+  font-size: var(--font-size-small);
+}
+
+.metric-label { margin: 0; }
+.empty-card-state { margin-top: 10px; }
+.shortcut-button { padding: var(--space-4); text-align: center; }
+.section-spaced { margin-top: 32px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }

@@ -61,8 +61,8 @@ function Historico() {
           <h1>Histórico</h1>
           <p className="page-description">Acompanhe seu histórico de registros.</p>
         </div>
-        <label>Filtrar por:
-          <select value={filtro} onChange={(e) => setFiltro(e.target.value)} style={{ padding: '8px', marginTop: '8px' }}>
+        <label className="filter-field">Filtrar por:
+          <select className="filter-select" value={filtro} onChange={(e) => setFiltro(e.target.value)}>
             <option value="7">7 dias</option>
             <option value="30">30 dias</option>
             <option value="90">90 dias</option>
@@ -73,14 +73,14 @@ function Historico() {
       {error && <p className="error">{error}</p>}
 
       {!isSupabaseConfigured && (
-        <div className="warning-box" style={{ marginTop: '20px' }}>
+        <div className="warning-box">
           <strong>Supabase não configurado.</strong>
           <p>Preencha o arquivo <code>.env</code> com <code>VITE_SUPABASE_URL</code> e <code>VITE_SUPABASE_PUBLISHABLE_KEY</code>.</p>
         </div>
       )}
 
       {pressoesFiltradas.length > 0 && (
-        <div style={{ marginTop: '24px' }}>
+        <div className="history-section">
           <h2>Pressão Arterial</h2>
           <div className="record-list">
             {pressoesFiltradas.map((record) => (
@@ -97,7 +97,7 @@ function Historico() {
       )}
 
       {glicemiasFiltradas.length > 0 && (
-        <div style={{ marginTop: '24px' }}>
+        <div className="history-section">
           <h2>Glicemia</h2>
           <div className="record-list">
             {glicemiasFiltradas.map((record) => (
@@ -114,7 +114,7 @@ function Historico() {
       )}
 
       {atividadesFiltradas.length > 0 && (
-        <div style={{ marginTop: '24px' }}>
+        <div className="history-section">
           <h2>Atividades Físicas</h2>
           <div className="record-list">
             {atividadesFiltradas.map((record) => (
@@ -131,7 +131,7 @@ function Historico() {
       )}
 
       {medicamentosFiltrados.length > 0 && (
-        <div style={{ marginTop: '24px' }}>
+        <div className="history-section">
           <h2>Medicamentos</h2>
           <div className="record-list">
             {medicamentosFiltrados.map((record) => (
@@ -148,7 +148,7 @@ function Historico() {
       )}
 
       {pressoesFiltradas.length === 0 && glicemiasFiltradas.length === 0 && atividadesFiltradas.length === 0 && medicamentosFiltrados.length === 0 && (
-        <p className="empty-state" style={{ marginTop: '24px' }}>Nenhum registro no período selecionado.</p>
+        <p className="empty-state history-empty-state">Nenhum registro no período selecionado.</p>
       )}
     </section>
   );
