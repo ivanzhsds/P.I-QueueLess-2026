@@ -1,0 +1,10 @@
+{
+  "name": "QueueLess",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "remoteEnv": {
+    "VITE_SUPABASE_URL": "${containerEnv:VITE_SUPABASE_URL}",
+    "VITE_SUPABASE_PUBLISHABLE_KEY": "${containerEnv:VITE_SUPABASE_PUBLISHABLE_KEY}"
+  },
+  "postCreateCommand": "npm install --prefix QueueLess",
+  "forwardPorts": [5173]
+}

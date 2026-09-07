@@ -118,7 +118,7 @@ CREATE INDEX idx_atividades_data ON atividades(data);
    - Copie `Project URL` para `VITE_SUPABASE_URL`
    - Copie `anon public` key para `VITE_SUPABASE_PUBLISHABLE_KEY`
 
-3. **Criar o arquivo `.env`** na raiz do projeto `QueueLess/`:
+3. **Configurar as variáveis de ambiente**. No Codespaces, cadastre os Secrets `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` no repositório; eles são disponibilizados automaticamente. Em ambiente local, use `QueueLess/.env.example` como referência para criar `.env`:
 ```
 VITE_SUPABASE_URL=https://seu-projeto.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=sua-chave-publica
@@ -137,7 +137,7 @@ VITE_SUPABASE_PUBLISHABLE_KEY=sua-chave-publica
 
 ## Reiniciar o servidor
 
-Após criar o arquivo `.env`, reinicie o servidor de desenvolvimento:
+Após configurar as variáveis, reinicie o servidor de desenvolvimento:
 
 ```bash
 npm run dev

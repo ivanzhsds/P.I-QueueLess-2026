@@ -36,7 +36,12 @@ Acesse: `http://localhost:5173`
 
 ### 1. Variáveis de Ambiente
 
-Crie arquivo `.env` em `QueueLess/`:
+Em GitHub Codespaces, configure os Secrets do repositório com os nomes abaixo. Eles são disponibilizados automaticamente no ambiente, sem criar `.env` manualmente:
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_PUBLISHABLE_KEY`
+
+Para desenvolvimento local fora do Codespaces, use `QueueLess/.env.example` como referência e crie um `.env` na pasta `QueueLess/`:
 
 ```env
 VITE_SUPABASE_URL=https://seu-projeto.supabase.co

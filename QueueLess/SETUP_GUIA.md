@@ -25,7 +25,14 @@ npm install
 
 ## 2️⃣ Configurar Variáveis de Ambiente
 
-Crie um arquivo `.env` na raiz do projeto:
+No GitHub Codespaces, configure os Codespaces Secrets do repositório com estes nomes. O ambiente os disponibiliza automaticamente:
+
+```text
+VITE_SUPABASE_URL
+VITE_SUPABASE_PUBLISHABLE_KEY
+```
+
+Para desenvolvimento local fora do Codespaces, use `.env.example` como referência e crie um arquivo `.env` na raiz do projeto:
 
 ```env
 VITE_SUPABASE_URL=https://seu-projeto.supabase.co
@@ -271,7 +278,8 @@ Edite `src/routes/AppRoutes.jsx` para adicionar novas páginas.
 ## 🐛 Troubleshooting
 
 ### Erro: "Supabase não está configurado"
-- Verifique se o arquivo `.env` existe
+- Em Codespaces, confirme se os Secrets `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` foram configurados no repositório
+- Em desenvolvimento local, confirme se o arquivo `.env` existe
 - Confirme as variáveis: `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY`
 - Reinicie o servidor (`npm run dev`)
 

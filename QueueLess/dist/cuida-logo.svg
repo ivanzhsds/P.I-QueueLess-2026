@@ -1,0 +1,27 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="30" y1="18" x2="170" y2="178" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1A3E37"/>
+      <stop offset="0.52" stop-color="#0A2B2A"/>
+      <stop offset="1" stop-color="#10261F"/>
+    </linearGradient>
+    <linearGradient id="leafGreen" x1="40" y1="56" x2="132" y2="136" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E8F5B7"/>
+      <stop offset="1" stop-color="#A8D95E"/>
+    </linearGradient>
+    <linearGradient id="leafRed" x1="80" y1="32" x2="146" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFB9A5"/>
+      <stop offset="1" stop-color="#D8503E"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="100" cy="100" r="82" fill="url(#bg)"/>
+  <circle cx="100" cy="100" r="70" stroke="#E4FAF2" stroke-opacity="0.12" stroke-width="2"/>
+
+  <path d="M100 38C113 52 122 69 122 89C122 104 117 116 108 127C98 139 87 146 73 152C58 144 48 131 46 112C40 99 40 82 47 68C56 51 77 39 100 38Z" fill="url(#leafGreen)"/>
+  <path d="M121 44C136 57 147 74 151 95C155 114 152 131 139 145C126 158 110 165 92 168C96 149 103 133 119 117C130 105 138 90 138 73C136 62 130 52 121 44Z" fill="url(#leafRed)"/>
+
+  <path d="M98 52H118V102H155V122H118V157H98V122H62V102H98V52Z" fill="white"/>
+
+  <path d="M74 152C84 142 92 136 100 136C109 136 120 143 133 152" stroke="#D9F7A5" stroke-width="7" stroke-linecap="round"/>
+</svg>

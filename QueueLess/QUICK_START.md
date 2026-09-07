@@ -9,7 +9,14 @@ npm install
 ```
 
 ### 2. Configurar Supabase
-Crie `.env`:
+No GitHub Codespaces, cadastre estes nomes como Codespaces Secrets do repositório. Eles serão disponibilizados automaticamente:
+
+```text
+VITE_SUPABASE_URL
+VITE_SUPABASE_PUBLISHABLE_KEY
+```
+
+Em ambiente local, use `.env.example` como referência para criar `.env`:
 ```env
 VITE_SUPABASE_URL=https://seu-projeto.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=sua-chave

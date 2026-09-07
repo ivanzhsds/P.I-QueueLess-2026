@@ -6,7 +6,7 @@ Bem-vindo ao Cuida+! Um aplicativo para monitoramento e apoio ao autocuidado de 
 
 ### 1. Configurar Variáveis de Ambiente
 
-Crie um arquivo `.env` na pasta `QueueLess/`:
+No Codespaces, configure os Secrets `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` no repositório. Para ambiente local, use `QueueLess/.env.example` como referência e crie um arquivo `.env`:
 
 ```env
 VITE_SUPABASE_URL=https://seu-projeto.supabase.co
@@ -158,7 +158,7 @@ Os estilos globais estão em `src/styles/global.css`. Classes úteis:
 
 - [ ] Criar projeto no Supabase
 - [ ] Copiar credenciais de API
-- [ ] Criar arquivo `.env`
+- [ ] Configurar os Secrets do Codespaces ou o `.env` local
 - [ ] Criar tabelas no Supabase (SQL)
 - [ ] Configurar RLS
 - [ ] Instalar dependências (`npm install`)

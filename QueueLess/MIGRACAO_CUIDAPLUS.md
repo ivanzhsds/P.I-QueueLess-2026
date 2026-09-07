@@ -214,7 +214,7 @@ npm run build
 ```
 
 ### Configurar Supabase
-1. Criar arquivo `.env` na raiz do projeto:
+1. Configurar os Secrets `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` no Codespaces. Em ambiente local, use `QueueLess/.env.example` como referência para criar `.env`:
 ```env
 VITE_SUPABASE_URL=https://seu-projeto.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=sua-chave-publica

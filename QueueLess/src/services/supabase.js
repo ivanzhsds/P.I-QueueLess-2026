@@ -1,9 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey =
-  import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
-  import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabasePublishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 function isValidSupabaseUrl(value) {
   try {
@@ -20,13 +18,13 @@ function isPlaceholder(value) {
 
 export const isSupabaseConfigured = Boolean(
   supabaseUrl &&
-  supabaseKey &&
+  supabasePublishableKey &&
   isValidSupabaseUrl(supabaseUrl) &&
   !isPlaceholder(supabaseUrl) &&
-  !isPlaceholder(supabaseKey),
+  !isPlaceholder(supabasePublishableKey),
 );
 export const supabase = isSupabaseConfigured
-  ? createClient(supabaseUrl.trim(), supabaseKey.trim())
+  ? createClient(supabaseUrl.trim(), supabasePublishableKey.trim())
   : null;
 
 function unavailableError() {
