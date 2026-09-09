@@ -2,41 +2,41 @@
   color-scheme: dark;
   font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
 
-  --cor-fundo: #071426;
-  --cor-fundo-secundario: #0d1f3a;
-  --cor-container: #101e35;
-  --cor-card: #142744;
-  --cor-card-hover: #1a3153;
+  --cor-fundo: #2E1437;
+  --cor-fundo-secundario: #51425F;
+  --cor-container: #51425F;
+  --cor-card: #51425F;
+  --cor-card-hover: #948E99;
 
-  --cor-primaria: #4bb7c4;
-  --cor-secundaria: #7fa9b5;
-  --cor-destaque: #e19a72;
+  --cor-primaria: #51425F;
+  --cor-secundaria: #CAD1C3;
+  --cor-destaque: #E7EED0;
   --cor-superficie: var(--cor-card);
-  --cor-texto: #edf6ff;
-  --cor-texto-secundario: #a9bed0;
-  --cor-borda: #294664;
+  --cor-texto: #E7EED0;
+  --cor-texto-secundario: #CAD1C3;
+  --cor-borda: #948E99;
 
   /* ESTADOS */
-  --cor-sucesso: #4f8a6d;
-  --cor-erro: #b85c55;
-  --cor-aviso: #b77a43;
+  --cor-sucesso: #CAD1C3;
+  --cor-erro: #E7EED0;
+  --cor-aviso: #948E99;
 
   /* OUTROS */
-  --sombra: 0 8px 24px rgba(31, 78, 95, 0.08);
+  --sombra: 0 8px 24px color-mix(in srgb, var(--cor-fundo) 8%, transparent);
   --raio: 16px;
   --transicao: 0.2s ease;
 
   /* Tons derivados centralizados para facilitar futuras trocas de identidade. */
-  --cor-primaria-hover: #328d9b;
+  --cor-primaria-hover: #948E99;
   --cor-fundo-suave: var(--cor-fundo-secundario);
-  --cor-fundo-aviso: #332b1f;
-  --cor-borda-aviso: #765d39;
-  --cor-texto-secundario-acao: #c4e7ec;
-  --cor-fundo-erro: #3a232b;
-  --cor-foco: rgba(75, 183, 196, 0.32);
-  --cor-selecao: rgba(75, 183, 196, 0.32);
-  --cor-codigo: rgba(75, 183, 196, 0.12);
-  --cor-branco: #edf6ff;
+  --cor-fundo-aviso: #51425F;
+  --cor-borda-aviso: #948E99;
+  --cor-texto-secundario-acao: #CAD1C3;
+  --cor-fundo-erro: #948E99;
+  --cor-foco: color-mix(in srgb, var(--cor-destaque) 32%, transparent);
+  --cor-selecao: color-mix(in srgb, var(--cor-destaque) 32%, transparent);
+  --cor-codigo: color-mix(in srgb, var(--cor-destaque) 12%, transparent);
+  --cor-branco: #E7EED0;
 
   /* Aliases mantidos para preservar as classes existentes. */
   --surface: var(--cor-superficie);
@@ -70,7 +70,7 @@
   --radius-control: 10px;
   --radius-card: var(--raio);
   --radius-panel: 20px;
-  --shadow-panel: 0 12px 30px rgba(0, 0, 0, 0.24);
+  --shadow-panel: 0 12px 30px color-mix(in srgb, var(--cor-fundo) 24%, transparent);
   --shadow-focus: 0 0 0 3px var(--cor-foco);
   --transition-fast: var(--transicao);
 }
