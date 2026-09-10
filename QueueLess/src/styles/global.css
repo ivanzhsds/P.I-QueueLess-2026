@@ -2,24 +2,29 @@
   color-scheme: dark;
   font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
 
-  --cor-fundo: #2E1437;
-  --cor-fundo-secundario: #51425F;
-  --cor-container: #51425F;
-  --cor-card: #51425F;
-  --cor-card-hover: #948E99;
-
-  --cor-primaria: #51425F;
+  --cor-clara: #E7EED0;
   --cor-secundaria: #CAD1C3;
-  --cor-destaque: #E7EED0;
+  --cor-neutra: #948E99;
+  --cor-principal: #51425F;
+  --cor-escura: #2E1437;
+
+  --cor-fundo: var(--cor-escura);
+  --cor-fundo-secundario: var(--cor-principal);
+  --cor-container: color-mix(in srgb, var(--cor-escura) 82%, var(--cor-principal));
+  --cor-card: var(--cor-principal);
+  --cor-card-hover: var(--cor-neutra);
+
+  --cor-primaria: var(--cor-principal);
+  --cor-destaque: var(--cor-clara);
   --cor-superficie: var(--cor-card);
-  --cor-texto: #E7EED0;
-  --cor-texto-secundario: #CAD1C3;
-  --cor-borda: #948E99;
+  --cor-texto: var(--cor-clara);
+  --cor-texto-secundario: var(--cor-secundaria);
+  --cor-borda: var(--cor-neutra);
 
   /* ESTADOS */
-  --cor-sucesso: #CAD1C3;
-  --cor-erro: #E7EED0;
-  --cor-aviso: #948E99;
+  --cor-sucesso: var(--cor-clara);
+  --cor-erro: var(--cor-clara);
+  --cor-aviso: var(--cor-secundaria);
 
   /* OUTROS */
   --sombra: 0 8px 24px color-mix(in srgb, var(--cor-fundo) 8%, transparent);
@@ -27,23 +32,23 @@
   --transicao: 0.2s ease;
 
   /* Tons derivados centralizados para facilitar futuras trocas de identidade. */
-  --cor-primaria-hover: #948E99;
+  --cor-primaria-hover: var(--cor-neutra);
   --cor-fundo-suave: var(--cor-fundo-secundario);
-  --cor-fundo-aviso: #51425F;
-  --cor-borda-aviso: #948E99;
-  --cor-texto-secundario-acao: #CAD1C3;
-  --cor-fundo-erro: #948E99;
+  --cor-fundo-aviso: color-mix(in srgb, var(--cor-principal) 68%, var(--cor-escura));
+  --cor-borda-aviso: var(--cor-neutra);
+  --cor-texto-secundario-acao: var(--cor-secundaria);
+  --cor-fundo-erro: var(--cor-neutra);
   --cor-foco: color-mix(in srgb, var(--cor-destaque) 32%, transparent);
   --cor-selecao: color-mix(in srgb, var(--cor-destaque) 32%, transparent);
   --cor-codigo: color-mix(in srgb, var(--cor-destaque) 12%, transparent);
-  --cor-branco: #E7EED0;
+  --cor-branco: var(--cor-clara);
 
   /* Aliases mantidos para preservar as classes existentes. */
   --surface: var(--cor-superficie);
   --surface-muted: var(--cor-container);
-  --primary: var(--cor-primaria);
+  --primary: var(--cor-clara);
   --primary-hover: var(--cor-primaria-hover);
-  --dark: var(--cor-primaria);
+  --dark: var(--cor-escura);
   --success: var(--cor-sucesso);
   --success-text: var(--cor-sucesso);
   --danger: var(--cor-erro);
@@ -54,7 +59,7 @@
   --secondary-text: var(--cor-texto-secundario-acao);
   --muted: var(--cor-texto-secundario);
   --text: var(--cor-texto);
-  --text-subtle: var(--cor-texto);
+  --text-subtle: var(--cor-secundaria);
   --border: var(--cor-borda);
   --border-strong: var(--cor-borda);
   --focus-ring: var(--cor-foco);
@@ -88,6 +93,7 @@ body {
   margin: 0;
   background: var(--cor-fundo);
   color: var(--cor-texto);
+  background-image: radial-gradient(circle at 10% 0%, color-mix(in srgb, var(--cor-principal) 42%, transparent), transparent 34rem);
 }
 
 button,
@@ -101,7 +107,7 @@ button,
 input,
 select,
 textarea {
-  accent-color: var(--cor-primaria);
+  accent-color: var(--cor-clara);
 }
 
 option {
@@ -139,7 +145,7 @@ a {
 
 .app-shell {
   padding: 24px;
-  max-width: 1120px;
+  max-width: 1180px;
   margin: 0 auto;
 }
 
@@ -159,14 +165,16 @@ a {
   justify-content: space-between;
   gap: 12px;
   padding: 18px 24px;
-  background: var(--cor-fundo-secundario);
+  background: color-mix(in srgb, var(--cor-escura) 94%, var(--cor-principal));
   border-bottom: 1px solid var(--cor-borda);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--cor-escura) 45%, transparent);
 }
 
 .nav-brand {
   font-weight: 700;
-  font-size: 1.125rem;
-  color: var(--cor-primaria);
+  font-size: 1.3rem;
+  letter-spacing: 0.02em;
+  color: var(--cor-clara);
 }
 
 .nav-links {
@@ -187,12 +195,12 @@ a {
 
 .nav-link:hover,
 .nav-link-active {
-  color: var(--cor-texto);
-  background: var(--cor-card-hover);
+  color: var(--cor-clara);
+  background: var(--cor-principal);
 }
 
 .page-content {
-  background: var(--cor-container);
+  background: color-mix(in srgb, var(--cor-escura) 72%, var(--cor-principal));
   border: 1px solid var(--cor-borda);
   border-radius: var(--radius-panel);
   padding: 24px;
@@ -226,12 +234,13 @@ a {
   border: 1px solid var(--cor-borda);
   border-radius: var(--radius-card);
   padding: 20px;
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--cor-escura) 30%, transparent);
 }
 
 .queue-card:hover,
 .queue-card:focus-visible,
 .record-card:hover {
-  background: var(--cor-card-hover);
+  background: color-mix(in srgb, var(--cor-principal) 78%, var(--cor-neutra));
 }
 
 .queue-card strong {
@@ -282,8 +291,8 @@ code {
   padding: 9px 11px;
   border: 1px solid var(--cor-borda);
   border-radius: 10px;
-  background: var(--cor-fundo-secundario);
-  color: var(--cor-texto);
+  background: var(--cor-secundaria);
+  color: var(--cor-escura);
   font: inherit;
 }
 
@@ -304,9 +313,9 @@ code {
   cursor: pointer;
 }
 
-.primary-button { background: var(--cor-primaria); color: var(--cor-branco); }
+.primary-button { background: var(--cor-clara); color: var(--cor-escura); }
 .secondary-button { background: var(--cor-fundo-secundario); color: var(--cor-texto-secundario-acao); }
-.danger-button { background: var(--cor-fundo-erro); color: var(--cor-erro); }
+.danger-button { background: var(--cor-neutra); color: var(--cor-escura); }
 .primary-button:hover { background: var(--cor-primaria-hover); }
 .primary-button:focus-visible,
 .secondary-button:focus-visible,
@@ -338,7 +347,8 @@ code {
   justify-content: center;
   align-items: center;
   padding: var(--space-6);
-  background: var(--surface-muted);
+  background: var(--cor-escura);
+  background-image: radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--cor-principal) 65%, transparent), transparent 32rem);
 }
 
 .auth-card {
@@ -349,7 +359,7 @@ code {
   flex-direction: column;
   align-items: center;
   padding: 42px 38px;
-  background: var(--cor-card);
+  background: color-mix(in srgb, var(--cor-principal) 82%, var(--cor-escura));
   border: 1px solid var(--border);
   border-radius: var(--radius-panel);
   box-shadow: var(--sombra);
@@ -370,7 +380,7 @@ code {
 .auth-brand {
   font-size: clamp(2rem, 3vw, 2.5rem);
   font-weight: 700;
-  color: var(--primary);
+  color: var(--cor-clara);
   text-align: center;
   margin-bottom: var(--space-6);
 }
@@ -406,8 +416,8 @@ code {
   box-sizing: border-box;
   border: 1px solid var(--border);
   border-radius: var(--radius-control);
-  background: var(--cor-fundo-secundario);
-  color: var(--text);
+  background: var(--cor-secundaria);
+  color: var(--cor-escura);
   outline: none;
   font: inherit;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
@@ -434,8 +444,8 @@ code {
   margin-top: var(--space-2);
   border: none;
   border-radius: var(--radius-control);
-  background: var(--primary);
-  color: var(--cor-branco);
+  background: var(--cor-clara);
+  color: var(--cor-escura);
   font: inherit;
   font-weight: 600;
   cursor: pointer;
@@ -455,7 +465,7 @@ code {
 }
 
 .auth-switch a {
-  color: var(--primary);
+  color: var(--cor-clara);
   font-weight: 600;
 }
 
@@ -518,8 +528,8 @@ code {
   padding: 8px 11px;
   border: 1px solid var(--border);
   border-radius: var(--radius-control);
-  background: var(--cor-fundo-secundario);
-  color: var(--text);
+  background: var(--cor-secundaria);
+  color: var(--cor-escura);
   font: inherit;
 }
 
@@ -562,7 +572,7 @@ code {
 
 .metric-value {
   margin: 10px 0 5px;
-  color: var(--primary);
+  color: var(--cor-clara);
   font-size: 1.5rem;
   font-weight: 700;
 }
