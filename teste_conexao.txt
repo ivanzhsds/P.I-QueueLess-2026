@@ -1,0 +1,2 @@
+Teste de conexão Git
+Arquivo criado para verificar o Git.
