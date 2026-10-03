@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetchPressao, fetchGlicemia, fetchMedicamentos, fetchAtividades, isSupabaseConfigured } from '../services/supabase';
 import { useAuth } from '../context/AuthContext';
+import MetricChart from '../components/MetricChart';
 
 function Historico() {
   const { user } = useAuth();
@@ -82,6 +83,7 @@ function Historico() {
       {pressoesFiltradas.length > 0 && (
         <div className="history-section">
           <h2>Pressão Arterial</h2>
+          <MetricChart records={pressoesFiltradas} valueKey="sistolica" label="Pressão sistólica" unit="mmHg" />
           <div className="record-list">
             {pressoesFiltradas.map((record) => (
               <div key={record.id} className="record-card">
@@ -99,6 +101,7 @@ function Historico() {
       {glicemiasFiltradas.length > 0 && (
         <div className="history-section">
           <h2>Glicemia</h2>
+          <MetricChart records={glicemiasFiltradas} valueKey="valor" label="Glicemia" unit="mg/dL" />
           <div className="record-list">
             {glicemiasFiltradas.map((record) => (
               <div key={record.id} className="record-card">

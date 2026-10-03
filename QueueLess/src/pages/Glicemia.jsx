@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { fetchGlicemia, createGlicemia, updateGlicemia, deleteGlicemia, isSupabaseConfigured } from '../services/supabase';
+import HealthTabs from '../components/HealthTabs';
 
 function Glicemia() {
   const { user } = useAuth();
@@ -105,6 +106,8 @@ function Glicemia() {
           {showForm ? 'Cancelar' : '+ Novo Registro'}
         </button>
       </div>
+
+      <HealthTabs />
 
       {!isSupabaseConfigured && (
         <div className="warning-box">

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { isSupabaseConfigured } from '../services/supabase';
+import { isSupabaseConfigured, sendPasswordReset } from '../services/supabase';
 import { useAuth } from '../context/AuthContext';
 
 function Login() {
@@ -9,7 +9,9 @@ function Login() {
   const location = useLocation();
   const [form, setForm] = useState({ email: '', senha: '' });
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resetting, setResetting] = useState(false);
 
   useEffect(() => {
     if (user) navigate('/', { replace: true });
@@ -23,6 +25,7 @@ function Login() {
     }
     setLoading(true);
     setError('');
+    setMessage('');
     const result = await signIn(form);
     setLoading(false);
     if (result.error) {
@@ -30,6 +33,24 @@ function Login() {
       return;
     }
     navigate(location.state?.from || '/', { replace: true });
+  }
+
+  async function handlePasswordReset() {
+    if (!form.email.trim()) {
+      setError('Informe seu e-mail para receber o link de recuperação.');
+      setMessage('');
+      return;
+    }
+    setError('');
+    setMessage('');
+    setResetting(true);
+    const { error: resetError } = await sendPasswordReset(form.email);
+    setResetting(false);
+    if (resetError) {
+      setError(resetError.message);
+      return;
+    }
+    setMessage('Se este e-mail estiver cadastrado, você receberá as instruções de recuperação.');
   }
 
   return (
@@ -70,12 +91,16 @@ function Login() {
           </label>
 
           {error && <p className="error auth-message" role="alert">{error}</p>}
+          {message && <p className="success auth-message" role="status">{message}</p>}
 
           <button className="auth-button" type="submit" disabled={loading}>
             {loading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
 
+        <button className="forgot-password" type="button" onClick={handlePasswordReset} disabled={loading || resetting}>
+          {resetting ? 'Enviando instruções...' : 'Esqueci minha senha'}
+        </button>
         <p className="auth-switch">
           Ainda não tem conta? <Link to="/cadastro">Criar Conta</Link>
         </p>

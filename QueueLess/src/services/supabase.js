@@ -59,6 +59,14 @@ export async function loginUser({ email, senha }) {
   });
 }
 
+export async function sendPasswordReset(email) {
+  if (!isSupabaseConfigured || !supabase) {
+    return { data: null, error: unavailableError() };
+  }
+
+  return supabase.auth.resetPasswordForEmail(email.trim().toLowerCase());
+}
+
 export async function logoutUser() {
   if (!isSupabaseConfigured || !supabase) {
     return { error: unavailableError() };

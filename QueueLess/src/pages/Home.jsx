@@ -58,10 +58,16 @@ function Home() {
 
   return (
     <section className="page-content">
-      <div>
-        <h1>Bem-vindo ao Cuida+</h1>
-        <p className="page-description">Seu cuidado, mais simples. Aqui está o resumo da sua rotina.</p>
+      <div className="dashboard-welcome">
+        <div>
+          <span className="eyebrow">SEU RESUMO DE SAÚDE</span>
+          <h1>Olá, {user?.user_metadata?.nome?.split(' ')[0] || 'bem-vindo'}!</h1>
+          <p className="page-description">Como você está se sentindo hoje?</p>
+        </div>
+        <button className="icon-button" type="button" aria-label="Ver perfil" onClick={() => navigate('/perfil')}>○</button>
       </div>
+
+      <h2 className="section-heading">Resumo da sua saúde</h2>
 
       {!isSupabaseConfigured && (
         <div className="warning-box">
@@ -129,25 +135,25 @@ function Home() {
       </div>
 
       <div className="section-spaced">
-        <h2>Atalhos Rápidos</h2>
+        <div className="section-heading-row">
+          <h2 className="section-heading">Sua rotina</h2>
+          <button className="text-button" type="button" onClick={() => navigate('/atividades')}>Atividades</button>
+        </div>
         <div className="queue-list-grid">
           <button className="primary-button shortcut-button" onClick={() => navigate('/pressao')}>
-            📊 Registrar Pressão
+            Registrar pressão
           </button>
           <button className="primary-button shortcut-button" onClick={() => navigate('/glicemia')}>
-            📈 Registrar Glicemia
+            Registrar glicemia
           </button>
           <button className="primary-button shortcut-button" onClick={() => navigate('/medicamentos')}>
-            💊 Medicamentos
+            Medicamentos
           </button>
           <button className="primary-button shortcut-button" onClick={() => navigate('/consultas')}>
-            📅 Consultas
-          </button>
-          <button className="primary-button shortcut-button" onClick={() => navigate('/atividades')}>
-            🏃 Atividades
+            Consultas
           </button>
           <button className="primary-button shortcut-button" onClick={() => navigate('/historico')}>
-            📋 Histórico
+            Progresso e histórico
           </button>
         </div>
       </div>

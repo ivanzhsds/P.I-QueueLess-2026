@@ -1,5 +1,5 @@
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Perfil() {
   const { user, signOut } = useAuth();
@@ -35,6 +35,14 @@ function Perfil() {
           <p>{user?.user_metadata?.tipoAcompanhamento === 'ambos' ? 'Hipertensão e Diabetes' : user?.user_metadata?.tipoAcompanhamento === 'pressao' ? 'Hipertensão' : user?.user_metadata?.tipoAcompanhamento === 'glicemia' ? 'Diabetes' : 'Não preenchido'}</p>
         </div>
       </div>
+
+      <Link className="record-card profile-plan-link" to="/planos">
+        <div>
+          <strong>Comparar planos</strong>
+          <p>Ver a tabela comparativa de recursos</p>
+        </div>
+        <span aria-hidden="true">›</span>
+      </Link>
 
       <div className="profile-actions">
         <button className="danger-button" onClick={handleLogout}>Sair da Conta</button>

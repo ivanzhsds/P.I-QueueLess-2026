@@ -10,6 +10,9 @@ function Consultas() {
   const [form, setForm] = useState({ tipo: 'cardiologista', data: '', horario: '', local_profissional: '', observacao: '' });
   const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const hoje = new Date().toISOString().split('T')[0];
+  const proximasConsultas = consultas.filter((consulta) => consulta.data >= hoje);
+  const historicoConsultas = consultas.filter((consulta) => consulta.data < hoje);
 
   useEffect(() => {
     if (!isSupabaseConfigured) {
@@ -132,22 +135,52 @@ function Consultas() {
       ) : consultas.length === 0 ? (
         <p className="empty-state">Nenhuma consulta agendada.</p>
       ) : (
-        <div className="record-list">
-          {consultas.map((consulta) => (
-            <div key={consulta.id} className="record-card">
-              <div>
-                <strong>{consulta.tipo}</strong>
-                <p>{consulta.data} às {consulta.horario}</p>
-                {consulta.local_profissional && <p>{consulta.local_profissional}</p>}
-                {consulta.observacao && <p>{consulta.observacao}</p>}
+        <>
+          <div className="history-section">
+            <h2>Próximas consultas</h2>
+            {proximasConsultas.length === 0 ? (
+              <p className="empty-state">Nenhuma consulta futura agendada.</p>
+            ) : (
+              <div className="record-list">
+                {proximasConsultas.map((consulta) => (
+                  <div key={consulta.id} className="record-card">
+                    <div>
+                      <strong>{consulta.tipo}</strong>
+                      <p>{consulta.data} às {consulta.horario}</p>
+                      {consulta.local_profissional && <p>{consulta.local_profissional}</p>}
+                      {consulta.observacao && <p>{consulta.observacao}</p>}
+                    </div>
+                    <div className="form-actions">
+                      <button className="secondary-button" onClick={() => handleEdit(consulta)}>Editar</button>
+                      <button className="danger-button" onClick={() => handleDelete(consulta.id)}>Excluir</button>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className="form-actions">
-                <button className="secondary-button" onClick={() => handleEdit(consulta)}>Editar</button>
-                <button className="danger-button" onClick={() => handleDelete(consulta.id)}>Excluir</button>
+            )}
+          </div>
+          {historicoConsultas.length > 0 && (
+            <div className="history-section">
+              <h2>Histórico de consultas</h2>
+              <div className="record-list">
+                {historicoConsultas.map((consulta) => (
+                  <div key={consulta.id} className="record-card">
+                    <div>
+                      <strong>{consulta.tipo}</strong>
+                      <p>{consulta.data} às {consulta.horario}</p>
+                      {consulta.local_profissional && <p>{consulta.local_profissional}</p>}
+                      {consulta.observacao && <p>{consulta.observacao}</p>}
+                    </div>
+                    <div className="form-actions">
+                      <button className="secondary-button" onClick={() => handleEdit(consulta)}>Editar</button>
+                      <button className="danger-button" onClick={() => handleDelete(consulta.id)}>Excluir</button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
     </section>
   );

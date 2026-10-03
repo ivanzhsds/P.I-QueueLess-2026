@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { fetchPressao, createPressao, updatePressao, deletePressao, isSupabaseConfigured } from '../services/supabase';
+import HealthTabs from '../components/HealthTabs';
 
 function Pressao() {
   const { user } = useAuth();
@@ -105,6 +106,8 @@ function Pressao() {
           {showForm ? 'Cancelar' : '+ Novo Registro'}
         </button>
       </div>
+
+      <HealthTabs />
 
       {!isSupabaseConfigured && (
         <div className="warning-box">

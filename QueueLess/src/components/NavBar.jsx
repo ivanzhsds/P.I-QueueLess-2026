@@ -1,47 +1,32 @@
-import { NavLink } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const navItems = [
-  { label: 'Início', path: '/' },
-  { label: 'Pressão', path: '/pressao' },
-  { label: 'Glicemia', path: '/glicemia' },
-  { label: 'Medicamentos', path: '/medicamentos' },
-  { label: 'Histórico', path: '/historico' },
-  { label: 'Consultas', path: '/consultas' },
-  { label: 'Atividades', path: '/atividades' },
-  { label: 'Perfil', path: '/perfil' },
+  { label: 'Início', path: '/', icon: '⌂', matches: ['/'] },
+  { label: 'Saúde', path: '/pressao', icon: '♡', matches: ['/pressao', '/glicemia'] },
+  { label: 'Missões', path: '/missoes', icon: '☆', matches: ['/missoes'] },
+  { label: 'Progresso', path: '/progresso', icon: '⌁', matches: ['/progresso', '/historico'] },
+  { label: 'Perfil', path: '/perfil', icon: '○', matches: ['/perfil'] },
 ];
 
-function NavBar() {
-  const { user, signOut } = useAuth();
+export default function NavBar() {
+  const { pathname } = useLocation();
 
   return (
-    <header className="nav-bar">
-      <div className="nav-brand">Cuida+</div>
-      <nav className="nav-links">
-        {navItems.map((item) => (
+    <nav className="bottom-nav" aria-label="Navegação principal">
+      {navItems.map((item) => {
+        const isActive = item.matches.includes(pathname);
+        return (
           <NavLink
             key={item.path}
             to={item.path}
-            className={({ isActive }) =>
-              `nav-link ${isActive ? 'nav-link-active' : ''}`
-            }
+            end={item.path === '/'}
+            className={`bottom-nav-link${isActive ? ' is-active' : ''}`}
           >
-            {item.label}
+            <span className="bottom-nav-icon" aria-hidden="true">{item.icon}</span>
+            <span>{item.label}</span>
           </NavLink>
-        ))}
-        {user ? (
-          <button type="button" className="nav-link nav-button" onClick={signOut}>
-            Sair
-          </button>
-        ) : (
-          <NavLink to="/login" className="nav-link">
-            Login
-          </NavLink>
-        )}
-      </nav>
-    </header>
+        );
+      })}
+    </nav>
   );
 }
-
-export default NavBar;
