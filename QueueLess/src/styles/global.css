@@ -1949,3 +1949,318 @@ h1, h2, .brand, .metric-card strong, .large-reading {
     padding-left: 24px;
   }
 }
+
+html, body, #root {
+  width: 100%;
+  min-width: 0;
+}
+
+body {
+  overflow-x: clip;
+}
+
+.app-frame {
+  width: 100%;
+  max-width: 1600px;
+  min-width: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.app-topbar {
+  padding-top: max(8px, env(safe-area-inset-top));
+  padding-right: max(16px, env(safe-area-inset-right));
+  padding-left: max(16px, env(safe-area-inset-left));
+}
+
+.app-shell, .page-content, .section-header, .dashboard-welcome,
+.section-heading-row, .record-card, .metric-chart {
+  min-width: 0;
+}
+
+.app-shell {
+  width: 100%;
+}
+
+.auth-page {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  overflow-y: auto;
+  padding-top: max(24px, env(safe-area-inset-top));
+  padding-right: max(16px, env(safe-area-inset-right));
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  padding-left: max(16px, env(safe-area-inset-left));
+}
+
+.data-form, .data-form label, .form-actions {
+  min-width: 0;
+}
+
+.plan-table-scroll {
+  width: 100%;
+  min-width: 0;
+}
+
+.chart-dates {
+  gap: 4px;
+}
+
+.chart-dates span {
+  min-width: 0;
+  text-align: center;
+}
+
+.bottom-nav {
+  padding-right: max(8px, env(safe-area-inset-right));
+  padding-left: max(8px, env(safe-area-inset-left));
+}
+
+.bottom-nav-link, .health-tabs a {
+  min-height: 44px;
+}
+
+.form-actions button, .primary-button, .secondary-button, .danger-button,
+.auth-button {
+  min-height: 44px;
+}
+
+.modal-backdrop {
+  padding-top: max(12px, env(safe-area-inset-top));
+  padding-right: max(12px, env(safe-area-inset-right));
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+  padding-left: max(12px, env(safe-area-inset-left));
+}
+
+@media (max-width: 639px) {
+  .app-frame {
+    max-width: none;
+  }
+
+  .app-shell {
+    padding-top: 20px;
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-bottom: 28px;
+    padding-left: max(16px, env(safe-area-inset-left));
+  }
+
+  .screen-content {
+    padding-right: max(16px, env(safe-area-inset-right));
+    padding-left: max(16px, env(safe-area-inset-left));
+  }
+
+  .section-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .section-header > .primary-button {
+    width: 100%;
+  }
+
+  .data-form {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .data-form input, .data-form select, .auth-input,
+  .form-field input, .form-field select {
+    font-size: 16px;
+  }
+
+  .record-card {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .form-actions {
+    justify-content: flex-start;
+  }
+
+  .form-actions button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .auth-page {
+    align-items: flex-start;
+  }
+
+  .auth-card {
+    margin-block: auto;
+  }
+
+  .bottom-nav-link {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 380px) {
+  .queue-list-grid, .plan-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .app-topbar {
+    padding-right: max(14px, env(safe-area-inset-right));
+    padding-left: max(14px, env(safe-area-inset-left));
+  }
+
+  .app-shell {
+    padding-right: max(14px, env(safe-area-inset-right));
+    padding-left: max(14px, env(safe-area-inset-left));
+  }
+}
+
+@media (min-width: 640px) {
+  .app-frame {
+    max-width: 960px;
+  }
+
+  .app-topbar {
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+
+  .app-shell {
+    padding: 28px 32px 40px;
+  }
+
+  .page-content {
+    max-width: 1120px;
+    margin-right: auto;
+    margin-left: auto;
+    gap: 20px;
+  }
+
+  .section-header {
+    align-items: center;
+  }
+
+  .section-header > .primary-button {
+    width: auto;
+  }
+
+  .data-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .record-card {
+    align-items: center;
+    flex-direction: row;
+  }
+
+  .bottom-nav-link, .health-tabs a {
+    min-height: 48px;
+    font-size: 12px;
+  }
+
+  .auth-page {
+    align-items: center;
+  }
+
+  .auth-card {
+    margin: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .app-frame {
+    display: grid;
+    grid-template-areas:
+      "topbar topbar"
+      "nav main";
+    grid-template-columns: 248px minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    max-width: 1600px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .app-topbar {
+    grid-area: topbar;
+    padding-right: 32px;
+    padding-left: 32px;
+  }
+
+  .app-shell {
+    grid-area: main;
+    padding: 32px 40px 48px;
+  }
+
+  .page-content {
+    max-width: 1320px;
+  }
+
+  .bottom-nav {
+    position: sticky;
+    top: max(58px, calc(37px + max(8px, env(safe-area-inset-top))));
+    bottom: auto;
+    grid-area: nav;
+    display: flex;
+    width: auto;
+    min-height: calc(100vh - 58px);
+    min-height: calc(100dvh - 58px);
+    align-self: start;
+    flex-direction: column;
+    gap: 6px;
+    overflow-y: auto;
+    padding: 18px 12px max(18px, env(safe-area-inset-bottom));
+    border-top: 0;
+    border-right: 1px solid var(--border);
+  }
+
+  .bottom-nav-link {
+    min-height: 48px;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+  }
+
+  .bottom-nav-icon {
+    width: 24px;
+    min-height: 24px;
+  }
+
+  .queue-list-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .data-form {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .record-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .modal-panel {
+    width: min(100%, 600px);
+  }
+
+  .auth-page {
+    max-width: none;
+  }
+
+  .auth-card {
+    max-width: 440px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .auth-page {
+    align-items: flex-start;
+  }
+
+  .modal-backdrop {
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+
+  .modal-panel {
+    max-height: calc(100dvh - 24px);
+  }
+}
