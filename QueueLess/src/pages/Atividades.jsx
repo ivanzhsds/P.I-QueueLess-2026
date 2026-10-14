@@ -18,13 +18,18 @@ function Atividades() {
     }
 
     async function loadData() {
-      const { data, error: fetchError } = await fetchAtividades(user.id);
-      if (fetchError) {
+      try {
+        const { data, error: fetchError } = await fetchAtividades(user.id);
+        if (fetchError) {
+          setError(fetchError.message);
+        } else {
+          setAtividades(data ?? []);
+        }
+      } catch (fetchError) {
         setError(fetchError.message);
-      } else {
-        setAtividades(data ?? []);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
 
     loadData();
@@ -40,7 +45,7 @@ function Atividades() {
     setError('');
     
     if (editingId) {
-      const { error: updateError } = await updateAtividade(editingId, {
+      const { error: updateError } = await updateAtividade(user.id, editingId, {
         ...form,
         duracao: parseInt(form.duracao),
       });
@@ -51,8 +56,7 @@ function Atividades() {
       setAtividades(atividades.map(a => a.id === editingId ? { ...a, ...form } : a));
       setEditingId(null);
     } else {
-      const { data: newAtividade, error: createError } = await createAtividade({
-        usuario_id: user.id,
+      const { data: newAtividade, error: createError } = await createAtividade(user.id, {
         ...form,
         duracao: parseInt(form.duracao),
       });
@@ -68,7 +72,7 @@ function Atividades() {
   }
 
   async function handleDelete(id) {
-    const { error: deleteError } = await deleteAtividade(id);
+    const { error: deleteError } = await deleteAtividade(user.id, id);
     if (deleteError) {
       setError(deleteError.message);
       return;
@@ -77,7 +81,12 @@ function Atividades() {
   }
 
   function handleEdit(atividade) {
-    setForm(atividade);
+    setForm({
+      tipo: atividade.tipo,
+      duracao: atividade.duracao,
+      data: atividade.data,
+      observacao: atividade.observacao || '',
+    });
     setEditingId(atividade.id);
     setShowForm(true);
   }
@@ -101,6 +110,8 @@ function Atividades() {
         </div>
       )}
 
+      {error && <p className="error" role="alert">{error}</p>}
+
       {showForm && (
         <form className="data-form" onSubmit={handleSubmit}>
           <label>Tipo de Atividade
@@ -123,14 +134,13 @@ function Atividades() {
           <label className="form-wide">Observação
             <input type="text" value={form.observacao} onChange={(e) => setForm({ ...form, observacao: e.target.value })} placeholder="Opcional" />
           </label>
-          {error && <p className="error form-wide">{error}</p>}
           <button type="submit" className="primary-button form-wide">{editingId ? 'Atualizar' : 'Registrar'}</button>
         </form>
       )}
 
       {loading ? (
         <p>Carregando...</p>
-      ) : atividades.length === 0 ? (
+      ) : error && atividades.length === 0 ? null : atividades.length === 0 ? (
         <p className="empty-state">Nenhuma atividade registrada.</p>
       ) : (
         <div className="record-list">

@@ -31,6 +31,46 @@ function unavailableError() {
   return new Error('Supabase não está configurado.');
 }
 
+function insertUserRecord(table, userId, record) {
+  if (!isSupabaseConfigured || !supabase) {
+    return Promise.resolve({ data: null, error: unavailableError() });
+  }
+
+  return supabase
+    .from(table)
+    .insert({ ...record, usuario_id: userId })
+    .select()
+    .single();
+}
+
+function updateUserRecord(table, userId, id, record) {
+  if (!isSupabaseConfigured || !supabase) {
+    return Promise.resolve({ data: null, error: unavailableError() });
+  }
+
+  return supabase
+    .from(table)
+    .update(record)
+    .eq('id', id)
+    .eq('usuario_id', userId)
+    .select()
+    .single();
+}
+
+function deleteUserRecord(table, userId, id) {
+  if (!isSupabaseConfigured || !supabase) {
+    return Promise.resolve({ error: unavailableError() });
+  }
+
+  return supabase
+    .from(table)
+    .delete()
+    .eq('id', id)
+    .eq('usuario_id', userId)
+    .select('id')
+    .single();
+}
+
 export async function registerUser({ nome, email, senha, tipoAcompanhamento = 'ambos' }) {
   if (!isSupabaseConfigured || !supabase) {
     return { data: null, error: unavailableError() };
@@ -194,33 +234,16 @@ export async function fetchPressao(userId) {
     .order('horario', { ascending: false });
 }
 
-export async function createPressao(pressao) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { data: null, error: unavailableError() };
-  }
-
-  return supabase.from('pressoes').insert(pressao).select().single();
+export async function createPressao(userId, pressao) {
+  return insertUserRecord('pressoes', userId, pressao);
 }
 
-export async function updatePressao(id, pressao) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { data: null, error: unavailableError() };
-  }
-
-  return supabase
-    .from('pressoes')
-    .update(pressao)
-    .eq('id', id)
-    .select()
-    .single();
+export async function updatePressao(userId, id, pressao) {
+  return updateUserRecord('pressoes', userId, id, pressao);
 }
 
-export async function deletePressao(id) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { error: unavailableError() };
-  }
-
-  return supabase.from('pressoes').delete().eq('id', id);
+export async function deletePressao(userId, id) {
+  return deleteUserRecord('pressoes', userId, id);
 }
 
 // Cuida+ - Glicemia
@@ -237,33 +260,16 @@ export async function fetchGlicemia(userId) {
     .order('horario', { ascending: false });
 }
 
-export async function createGlicemia(glicemia) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { data: null, error: unavailableError() };
-  }
-
-  return supabase.from('glicemias').insert(glicemia).select().single();
+export async function createGlicemia(userId, glicemia) {
+  return insertUserRecord('glicemias', userId, glicemia);
 }
 
-export async function updateGlicemia(id, glicemia) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { data: null, error: unavailableError() };
-  }
-
-  return supabase
-    .from('glicemias')
-    .update(glicemia)
-    .eq('id', id)
-    .select()
-    .single();
+export async function updateGlicemia(userId, id, glicemia) {
+  return updateUserRecord('glicemias', userId, id, glicemia);
 }
 
-export async function deleteGlicemia(id) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { error: unavailableError() };
-  }
-
-  return supabase.from('glicemias').delete().eq('id', id);
+export async function deleteGlicemia(userId, id) {
+  return deleteUserRecord('glicemias', userId, id);
 }
 
 // Cuida+ - Medicamentos
@@ -279,33 +285,16 @@ export async function fetchMedicamentos(userId) {
     .order('horario', { ascending: true });
 }
 
-export async function createMedicamento(medicamento) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { data: null, error: unavailableError() };
-  }
-
-  return supabase.from('medicamentos').insert(medicamento).select().single();
+export async function createMedicamento(userId, medicamento) {
+  return insertUserRecord('medicamentos', userId, medicamento);
 }
 
-export async function updateMedicamento(id, medicamento) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { data: null, error: unavailableError() };
-  }
-
-  return supabase
-    .from('medicamentos')
-    .update(medicamento)
-    .eq('id', id)
-    .select()
-    .single();
+export async function updateMedicamento(userId, id, medicamento) {
+  return updateUserRecord('medicamentos', userId, id, medicamento);
 }
 
-export async function deleteMedicamento(id) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { error: unavailableError() };
-  }
-
-  return supabase.from('medicamentos').delete().eq('id', id);
+export async function deleteMedicamento(userId, id) {
+  return deleteUserRecord('medicamentos', userId, id);
 }
 
 // Cuida+ - Consultas
@@ -322,33 +311,16 @@ export async function fetchConsultas(userId) {
     .order('horario', { ascending: true });
 }
 
-export async function createConsulta(consulta) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { data: null, error: unavailableError() };
-  }
-
-  return supabase.from('consultas').insert(consulta).select().single();
+export async function createConsulta(userId, consulta) {
+  return insertUserRecord('consultas', userId, consulta);
 }
 
-export async function updateConsulta(id, consulta) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { data: null, error: unavailableError() };
-  }
-
-  return supabase
-    .from('consultas')
-    .update(consulta)
-    .eq('id', id)
-    .select()
-    .single();
+export async function updateConsulta(userId, id, consulta) {
+  return updateUserRecord('consultas', userId, id, consulta);
 }
 
-export async function deleteConsulta(id) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { error: unavailableError() };
-  }
-
-  return supabase.from('consultas').delete().eq('id', id);
+export async function deleteConsulta(userId, id) {
+  return deleteUserRecord('consultas', userId, id);
 }
 
 // Cuida+ - Atividades
@@ -364,31 +336,14 @@ export async function fetchAtividades(userId) {
     .order('data', { ascending: false });
 }
 
-export async function createAtividade(atividade) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { data: null, error: unavailableError() };
-  }
-
-  return supabase.from('atividades').insert(atividade).select().single();
+export async function createAtividade(userId, atividade) {
+  return insertUserRecord('atividades', userId, atividade);
 }
 
-export async function updateAtividade(id, atividade) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { data: null, error: unavailableError() };
-  }
-
-  return supabase
-    .from('atividades')
-    .update(atividade)
-    .eq('id', id)
-    .select()
-    .single();
+export async function updateAtividade(userId, id, atividade) {
+  return updateUserRecord('atividades', userId, id, atividade);
 }
 
-export async function deleteAtividade(id) {
-  if (!isSupabaseConfigured || !supabase) {
-    return { error: unavailableError() };
-  }
-
-  return supabase.from('atividades').delete().eq('id', id);
+export async function deleteAtividade(userId, id) {
+  return deleteUserRecord('atividades', userId, id);
 }

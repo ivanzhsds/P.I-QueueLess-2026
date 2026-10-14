@@ -11,6 +11,7 @@ function Home() {
   const [proximoMedicamento, setProximoMedicamento] = useState(null);
   const [proximaConsulta, setProximaConsulta] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   function handleCardKeyDown(event, path) {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -34,18 +35,28 @@ function Home() {
           fetchConsultas(user.id),
         ]);
 
+        const failedRequest = [pressao, glicemia, medicamentos, consultas].find((result) => result.error);
+        if (failedRequest) {
+          setError(failedRequest.error.message);
+          return;
+        }
+
         if (pressao.data && pressao.data.length > 0) {
-          setUltimaPressao(pressao.data[pressao.data.length - 1]);
+          setUltimaPressao(pressao.data[0]);
         }
         if (glicemia.data && glicemia.data.length > 0) {
-          setUltimaGlicemia(glicemia.data[glicemia.data.length - 1]);
+          setUltimaGlicemia(glicemia.data[0]);
         }
         if (medicamentos.data && medicamentos.data.length > 0) {
           setProximoMedicamento(medicamentos.data[0]);
         }
-        if (consultas.data && consultas.data.length > 0) {
-          setProximaConsulta(consultas.data[0]);
+        const hoje = new Date().toISOString().split('T')[0];
+        const proxima = consultas.data?.find((consulta) => consulta.data >= hoje);
+        if (proxima) {
+          setProximaConsulta(proxima);
         }
+      } catch (loadError) {
+        setError(loadError.message);
       } finally {
         setLoading(false);
       }
@@ -76,6 +87,8 @@ function Home() {
         </div>
       )}
 
+      {error && <p className="error" role="alert">{error}</p>}
+
       <div className="queue-list-grid">
         <div className="queue-card clickable-card" role="button" tabIndex="0" onClick={() => navigate('/pressao')} onKeyDown={(event) => handleCardKeyDown(event, '/pressao')}>
           <strong>Última Pressão</strong>
@@ -87,7 +100,7 @@ function Home() {
               <p className="metric-label">{ultimaPressao.data}</p>
             </>
           ) : (
-            <p className="empty-card-state">Nenhum registro</p>
+            !error && <p className="empty-card-state">Nenhum registro</p>
           )}
         </div>
 
@@ -101,7 +114,7 @@ function Home() {
               <p className="metric-label">{ultimaGlicemia.data}</p>
             </>
           ) : (
-            <p className="empty-card-state">Nenhum registro</p>
+            !error && <p className="empty-card-state">Nenhum registro</p>
           )}
         </div>
 
@@ -115,7 +128,7 @@ function Home() {
               <p className="metric-label">{proximoMedicamento.horario}</p>
             </>
           ) : (
-            <p className="empty-card-state">Nenhum medicamento</p>
+            !error && <p className="empty-card-state">Nenhum medicamento</p>
           )}
         </div>
 
@@ -129,7 +142,7 @@ function Home() {
               <p className="metric-label">{proximaConsulta.data} às {proximaConsulta.horario}</p>
             </>
           ) : (
-            <p className="empty-card-state">Nenhuma consulta</p>
+            !error && <p className="empty-card-state">Nenhuma consulta</p>
           )}
         </div>
       </div>

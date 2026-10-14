@@ -42,8 +42,12 @@ export function AuthProvider({ children }) {
     return registerUser(credentials);
   }
 
-  function signOut() {
-    return logoutUser();
+  async function signOut() {
+    const result = await logoutUser();
+    if (!result.error) {
+      setUser(null);
+    }
+    return result;
   }
 
   return (

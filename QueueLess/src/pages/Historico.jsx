@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchPressao, fetchGlicemia, fetchMedicamentos, fetchAtividades, isSupabaseConfigured } from '../services/supabase';
+import { fetchPressao, fetchGlicemia, fetchMedicamentos, fetchConsultas, fetchAtividades, isSupabaseConfigured } from '../services/supabase';
 import { useAuth } from '../context/AuthContext';
 import MetricChart from '../components/MetricChart';
 
@@ -8,6 +8,7 @@ function Historico() {
   const [pressoes, setPressoes] = useState([]);
   const [glicemias, setGlicemias] = useState([]);
   const [medicamentos, setMedicamentos] = useState([]);
+  const [consultas, setConsultas] = useState([]);
   const [atividades, setAtividades] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -21,19 +22,24 @@ function Historico() {
 
     async function loadData() {
       try {
-        const [p, g, m, a] = await Promise.all([
+        const [p, g, m, c, a] = await Promise.all([
           fetchPressao(user.id),
           fetchGlicemia(user.id),
           fetchMedicamentos(user.id),
+          fetchConsultas(user.id),
           fetchAtividades(user.id),
         ]);
+
+        const failedRequest = [p, g, m, c, a].find((result) => result.error);
+        if (failedRequest) throw failedRequest.error;
 
         if (p.data) setPressoes(p.data);
         if (g.data) setGlicemias(g.data);
         if (m.data) setMedicamentos(m.data);
+        if (c.data) setConsultas(c.data);
         if (a.data) setAtividades(a.data);
-      } catch (err) {
-        setError('Erro ao carregar dados.');
+      } catch (loadError) {
+        setError(loadError.message);
       } finally {
         setLoading(false);
       }
@@ -45,12 +51,16 @@ function Historico() {
   function filtrarPorPeriodo(registros, dias) {
     const agora = new Date();
     const dataLimite = new Date(agora.getTime() - dias * 24 * 60 * 60 * 1000);
-    return registros.filter(r => new Date(r.data) >= dataLimite);
+    return registros.filter((registro) => {
+      const dataReferencia = registro.data || registro.created_at;
+      return dataReferencia && new Date(dataReferencia) >= dataLimite;
+    });
   }
 
   const pressoesFiltradas = filtrarPorPeriodo(pressoes, parseInt(filtro));
   const glicemiasFiltradas = filtrarPorPeriodo(glicemias, parseInt(filtro));
   const medicamentosFiltrados = filtrarPorPeriodo(medicamentos, parseInt(filtro));
+  const consultasFiltradas = filtrarPorPeriodo(consultas, parseInt(filtro));
   const atividadesFiltradas = filtrarPorPeriodo(atividades, parseInt(filtro));
 
   if (loading) return <section className="page-content"><p>Carregando...</p></section>;
@@ -116,6 +126,24 @@ function Historico() {
         </div>
       )}
 
+      {consultasFiltradas.length > 0 && (
+        <div className="history-section">
+          <h2>Consultas e Exames</h2>
+          <div className="record-list">
+            {consultasFiltradas.map((consulta) => (
+              <div key={consulta.id} className="record-card">
+                <div>
+                  <strong>{consulta.tipo}</strong>
+                  <p>{consulta.data} às {consulta.horario}</p>
+                  {consulta.local_profissional && <p>{consulta.local_profissional}</p>}
+                  {consulta.observacao && <p>{consulta.observacao}</p>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {atividadesFiltradas.length > 0 && (
         <div className="history-section">
           <h2>Atividades Físicas</h2>
@@ -150,7 +178,7 @@ function Historico() {
         </div>
       )}
 
-      {pressoesFiltradas.length === 0 && glicemiasFiltradas.length === 0 && atividadesFiltradas.length === 0 && medicamentosFiltrados.length === 0 && (
+      {!error && pressoesFiltradas.length === 0 && glicemiasFiltradas.length === 0 && consultasFiltradas.length === 0 && atividadesFiltradas.length === 0 && medicamentosFiltrados.length === 0 && (
         <p className="empty-state history-empty-state">Nenhum registro no período selecionado.</p>
       )}
     </section>

@@ -18,13 +18,18 @@ function Medicamentos() {
     }
 
     async function loadData() {
-      const { data, error: fetchError } = await fetchMedicamentos(user.id);
-      if (fetchError) {
+      try {
+        const { data, error: fetchError } = await fetchMedicamentos(user.id);
+        if (fetchError) {
+          setError(fetchError.message);
+        } else {
+          setMedicamentos(data ?? []);
+        }
+      } catch (fetchError) {
         setError(fetchError.message);
-      } else {
-        setMedicamentos(data ?? []);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
 
     loadData();
@@ -40,7 +45,7 @@ function Medicamentos() {
     setError('');
     
     if (editingId) {
-      const { error: updateError } = await updateMedicamento(editingId, form);
+      const { error: updateError } = await updateMedicamento(user.id, editingId, form);
       if (updateError) {
         setError(updateError.message);
         return;
@@ -48,8 +53,7 @@ function Medicamentos() {
       setMedicamentos(medicamentos.map(m => m.id === editingId ? { ...m, ...form } : m));
       setEditingId(null);
     } else {
-      const { data: newMed, error: createError } = await createMedicamento({
-        usuario_id: user.id,
+      const { data: newMed, error: createError } = await createMedicamento(user.id, {
         ...form,
       });
       if (createError) {
@@ -64,7 +68,7 @@ function Medicamentos() {
   }
 
   async function handleDelete(id) {
-    const { error: deleteError } = await deleteMedicamento(id);
+    const { error: deleteError } = await deleteMedicamento(user.id, id);
     if (deleteError) {
       setError(deleteError.message);
       return;
@@ -73,7 +77,12 @@ function Medicamentos() {
   }
 
   function handleEdit(med) {
-    setForm(med);
+    setForm({
+      nome: med.nome,
+      horario: med.horario,
+      frequencia: med.frequencia,
+      observacao: med.observacao || '',
+    });
     setEditingId(med.id);
     setShowForm(true);
   }
@@ -97,6 +106,8 @@ function Medicamentos() {
         </div>
       )}
 
+      {error && <p className="error" role="alert">{error}</p>}
+
       {showForm && (
         <form className="data-form" onSubmit={handleSubmit}>
           <label>Nome do Medicamento
@@ -117,14 +128,13 @@ function Medicamentos() {
           <label className="form-wide">Observação
             <input type="text" value={form.observacao} onChange={(e) => setForm({ ...form, observacao: e.target.value })} placeholder="Opcional" />
           </label>
-          {error && <p className="error form-wide">{error}</p>}
           <button type="submit" className="primary-button form-wide">{editingId ? 'Atualizar' : 'Adicionar'}</button>
         </form>
       )}
 
       {loading ? (
         <p>Carregando...</p>
-      ) : medicamentos.length === 0 ? (
+      ) : error && medicamentos.length === 0 ? null : medicamentos.length === 0 ? (
         <p className="empty-state">Nenhum medicamento cadastrado.</p>
       ) : (
         <div className="record-list">

@@ -110,6 +110,13 @@ CREATE INDEX idx_atividades_usuario_id ON atividades(usuario_id);
 CREATE INDEX idx_atividades_data ON atividades(data);
 ```
 
+## Integração do aplicativo
+
+- Pressão, glicemia, medicamentos, consultas e atividades são carregados por usuário autenticado.
+- Novos registros recebem o `user.id` da sessão em `usuario_id`; edição e exclusão também são limitadas a esse usuário.
+- A tela inicial usa pressão e glicemia mais recentes e a próxima consulta. O histórico consulta as cinco tabelas; para medicamentos, que não têm coluna `data`, o filtro usa `created_at`.
+- As políticas RLS existentes permanecem habilitadas e continuam sendo aplicadas pelo Supabase.
+
 ## Passos para Configurar o Supabase
 
 1. **Criar um projeto no Supabase** em https://supabase.com
@@ -124,16 +131,13 @@ VITE_SUPABASE_URL=https://seu-projeto.supabase.co
 VITE_SUPABASE_PUBLISHABLE_KEY=sua-chave-publica
 ```
 
-4. **Criar as tabelas no Supabase**:
-   - Abra o editor SQL no Supabase
-   - Copie e cole os comandos SQL acima para cada tabela
-   - Execute cada comando
+4. **Verificar as tabelas existentes**:
+   - Confirme no Table Editor as tabelas `pressoes`, `glicemias`, `medicamentos`, `consultas` e `atividades` e as colunas documentadas acima.
+   - Os blocos `CREATE TABLE` deste documento são referência do schema; não os execute se as tabelas já existem. Não apague nem recrie tabelas ou dados.
 
-5. **Configurar RLS (Row Level Security)** para segurança:
-   - Para cada tabela, habilite RLS
-   - Adicione política: `SELECT` e `UPDATE` onde `usuario_id = auth.uid()`
-   - Adicione política: `INSERT` onde `usuario_id = auth.uid()`
-   - Adicione política: `DELETE` onde `usuario_id = auth.uid()`
+5. **Preservar a segurança RLS**:
+   - Confirme que RLS continua habilitado nas cinco tabelas e que as políticas existentes limitam as operações a `usuario_id = auth.uid()`.
+   - Não desabilite nem substitua políticas existentes para conectar o aplicativo.
 
 ## Reiniciar o servidor
 

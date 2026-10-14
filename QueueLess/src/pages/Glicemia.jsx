@@ -19,13 +19,18 @@ function Glicemia() {
     }
 
     async function loadData() {
-      const { data, error: fetchError } = await fetchGlicemia(user.id);
-      if (fetchError) {
+      try {
+        const { data, error: fetchError } = await fetchGlicemia(user.id);
+        if (fetchError) {
+          setError(fetchError.message);
+        } else {
+          setRegistros(data ?? []);
+        }
+      } catch (fetchError) {
         setError(fetchError.message);
-      } else {
-        setRegistros(data ?? []);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
 
     loadData();
@@ -41,7 +46,7 @@ function Glicemia() {
     setError('');
     
     if (editingId) {
-      const { error: updateError } = await updateGlicemia(editingId, {
+      const { error: updateError } = await updateGlicemia(user.id, editingId, {
         valor: parseFloat(form.valor),
         momento: form.momento,
         data: form.data,
@@ -55,8 +60,7 @@ function Glicemia() {
       setRegistros(registros.map(r => r.id === editingId ? { ...r, ...form } : r));
       setEditingId(null);
     } else {
-      const { data: newRecord, error: createError } = await createGlicemia({
-        usuario_id: user.id,
+      const { data: newRecord, error: createError } = await createGlicemia(user.id, {
         valor: parseFloat(form.valor),
         momento: form.momento,
         data: form.data,
@@ -75,7 +79,7 @@ function Glicemia() {
   }
 
   async function handleDelete(id) {
-    const { error: deleteError } = await deleteGlicemia(id);
+    const { error: deleteError } = await deleteGlicemia(user.id, id);
     if (deleteError) {
       setError(deleteError.message);
       return;
@@ -116,6 +120,8 @@ function Glicemia() {
         </div>
       )}
 
+      {error && <p className="error" role="alert">{error}</p>}
+
       {showForm && (
         <form className="data-form" onSubmit={handleSubmit}>
           <label>Glicemia (mg/dL)
@@ -138,14 +144,13 @@ function Glicemia() {
           <label className="form-wide">Observação
             <input type="text" value={form.observacao} onChange={(e) => setForm({ ...form, observacao: e.target.value })} placeholder="Opcional" />
           </label>
-          {error && <p className="error form-wide">{error}</p>}
           <button type="submit" className="primary-button form-wide">{editingId ? 'Atualizar' : 'Registrar'}</button>
         </form>
       )}
 
       {loading ? (
         <p>Carregando...</p>
-      ) : registros.length === 0 ? (
+      ) : error && registros.length === 0 ? null : registros.length === 0 ? (
         <p className="empty-state">Nenhum registro de glicemia encontrado.</p>
       ) : (
         <div className="record-list">

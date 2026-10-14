@@ -21,13 +21,18 @@ function Consultas() {
     }
 
     async function loadData() {
-      const { data, error: fetchError } = await fetchConsultas(user.id);
-      if (fetchError) {
+      try {
+        const { data, error: fetchError } = await fetchConsultas(user.id);
+        if (fetchError) {
+          setError(fetchError.message);
+        } else {
+          setConsultas(data ?? []);
+        }
+      } catch (fetchError) {
         setError(fetchError.message);
-      } else {
-        setConsultas(data ?? []);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
 
     loadData();
@@ -43,7 +48,7 @@ function Consultas() {
     setError('');
     
     if (editingId) {
-      const { error: updateError } = await updateConsulta(editingId, form);
+      const { error: updateError } = await updateConsulta(user.id, editingId, form);
       if (updateError) {
         setError(updateError.message);
         return;
@@ -51,8 +56,7 @@ function Consultas() {
       setConsultas(consultas.map(c => c.id === editingId ? { ...c, ...form } : c));
       setEditingId(null);
     } else {
-      const { data: newConsulta, error: createError } = await createConsulta({
-        usuario_id: user.id,
+      const { data: newConsulta, error: createError } = await createConsulta(user.id, {
         ...form,
       });
       if (createError) {
@@ -67,7 +71,7 @@ function Consultas() {
   }
 
   async function handleDelete(id) {
-    const { error: deleteError } = await deleteConsulta(id);
+    const { error: deleteError } = await deleteConsulta(user.id, id);
     if (deleteError) {
       setError(deleteError.message);
       return;
@@ -76,7 +80,13 @@ function Consultas() {
   }
 
   function handleEdit(consulta) {
-    setForm(consulta);
+    setForm({
+      tipo: consulta.tipo,
+      data: consulta.data,
+      horario: consulta.horario,
+      local_profissional: consulta.local_profissional || '',
+      observacao: consulta.observacao || '',
+    });
     setEditingId(consulta.id);
     setShowForm(true);
   }
@@ -99,6 +109,8 @@ function Consultas() {
           <p>Preencha o arquivo <code>.env</code> com <code>VITE_SUPABASE_URL</code> e <code>VITE_SUPABASE_PUBLISHABLE_KEY</code>.</p>
         </div>
       )}
+
+      {error && <p className="error" role="alert">{error}</p>}
 
       {showForm && (
         <form className="data-form" onSubmit={handleSubmit}>
@@ -125,14 +137,13 @@ function Consultas() {
           <label className="form-wide">Observação
             <input type="text" value={form.observacao} onChange={(e) => setForm({ ...form, observacao: e.target.value })} placeholder="Opcional" />
           </label>
-          {error && <p className="error form-wide">{error}</p>}
           <button type="submit" className="primary-button form-wide">{editingId ? 'Atualizar' : 'Agendar'}</button>
         </form>
       )}
 
       {loading ? (
         <p>Carregando...</p>
-      ) : consultas.length === 0 ? (
+      ) : error && consultas.length === 0 ? null : consultas.length === 0 ? (
         <p className="empty-state">Nenhuma consulta agendada.</p>
       ) : (
         <>

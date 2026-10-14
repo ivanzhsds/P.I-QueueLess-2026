@@ -19,13 +19,18 @@ function Pressao() {
     }
 
     async function loadData() {
-      const { data, error: fetchError } = await fetchPressao(user.id);
-      if (fetchError) {
+      try {
+        const { data, error: fetchError } = await fetchPressao(user.id);
+        if (fetchError) {
+          setError(fetchError.message);
+        } else {
+          setRegistros(data ?? []);
+        }
+      } catch (fetchError) {
         setError(fetchError.message);
-      } else {
-        setRegistros(data ?? []);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
 
     loadData();
@@ -41,7 +46,7 @@ function Pressao() {
     setError('');
     
     if (editingId) {
-      const { error: updateError } = await updatePressao(editingId, {
+      const { error: updateError } = await updatePressao(user.id, editingId, {
         sistolica: parseInt(form.sistolica),
         diastolica: parseInt(form.diastolica),
         data: form.data,
@@ -55,8 +60,7 @@ function Pressao() {
       setRegistros(registros.map(r => r.id === editingId ? { ...r, sistolica: form.sistolica, diastolica: form.diastolica, data: form.data, horario: form.horario, observacao: form.observacao } : r));
       setEditingId(null);
     } else {
-      const { data: newRecord, error: createError } = await createPressao({
-        usuario_id: user.id,
+      const { data: newRecord, error: createError } = await createPressao(user.id, {
         sistolica: parseInt(form.sistolica),
         diastolica: parseInt(form.diastolica),
         data: form.data,
@@ -75,7 +79,7 @@ function Pressao() {
   }
 
   async function handleDelete(id) {
-    const { error: deleteError } = await deletePressao(id);
+    const { error: deleteError } = await deletePressao(user.id, id);
     if (deleteError) {
       setError(deleteError.message);
       return;
@@ -116,6 +120,8 @@ function Pressao() {
         </div>
       )}
 
+      {error && <p className="error" role="alert">{error}</p>}
+
       {showForm && (
         <form className="data-form" onSubmit={handleSubmit}>
           <label>Pressão Sistólica (mmHg)
@@ -133,14 +139,13 @@ function Pressao() {
           <label className="form-wide">Observação
             <input type="text" value={form.observacao} onChange={(e) => setForm({ ...form, observacao: e.target.value })} placeholder="Opcional" />
           </label>
-          {error && <p className="error form-wide">{error}</p>}
           <button type="submit" className="primary-button form-wide">{editingId ? 'Atualizar' : 'Registrar'}</button>
         </form>
       )}
 
       {loading ? (
         <p>Carregando...</p>
-      ) : registros.length === 0 ? (
+      ) : error && registros.length === 0 ? null : registros.length === 0 ? (
         <p className="empty-state">Nenhum registro de pressão encontrado.</p>
       ) : (
         <div className="record-list">
