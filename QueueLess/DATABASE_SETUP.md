@@ -117,6 +117,12 @@ CREATE INDEX idx_atividades_data ON atividades(data);
 - A tela inicial usa pressão e glicemia mais recentes e a próxima consulta. O histórico consulta as cinco tabelas; para medicamentos, que não têm coluna `data`, o filtro usa `created_at`.
 - As políticas RLS existentes permanecem habilitadas e continuam sendo aplicadas pelo Supabase.
 
+## Gamificação
+
+Após confirmar as tabelas de saúde acima, aplique manualmente `supabase/migrations/002_gamification.sql` pelo SQL Editor do Supabase ou pelo fluxo de migrations adotado no projeto. Ela cria somente `gamification_profiles`, `gamification_xp_events` e `gamification_achievements`, habilita RLS e instala triggers nas tabelas existentes de pressão, glicemia e atividades. Não executa automaticamente no aplicativo e não apaga nem recria tabelas existentes.
+
+As novas tabelas permitem leitura apenas do próprio usuário autenticado; pontos, sequência, missões e conquistas são atualizados por funções de banco com escopo de `auth.uid()`. O navegador não pode inserir ou editar XP diretamente. Cada usuário recebe XP-base somente pelo primeiro registro de cada categoria por dia (pressão: 10, glicemia: 10, atividade: 15); cada 100 XP formam um nível. As missões concedem 20 XP por pelo menos uma medição no dia, 30 XP por três atividades na semana e 25 XP por cinco medições na semana, uma vez em cada período. Conquistas são persistidas e concedem bônus únicos: 25 XP no primeiro registro, 15 XP na primeira atividade, 30 XP ao atingir dez registros e 50 XP por uma sequência de sete dias. Edição, exclusão e registros adicionais na mesma categoria/dia não repetem a recompensa-base.
+
 ## Passos para Configurar o Supabase
 
 1. **Criar um projeto no Supabase** em https://supabase.com

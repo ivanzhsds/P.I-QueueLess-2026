@@ -347,3 +347,35 @@ export async function updateAtividade(userId, id, atividade) {
 export async function deleteAtividade(userId, id) {
   return deleteUserRecord('atividades', userId, id);
 }
+
+export async function syncGamification() {
+  if (!isSupabaseConfigured || !supabase) {
+    return { data: null, error: unavailableError() };
+  }
+
+  return supabase.rpc('sync_gamification');
+}
+
+export async function fetchGamificationProfile(userId) {
+  if (!isSupabaseConfigured || !supabase) {
+    return { data: null, error: unavailableError() };
+  }
+
+  return supabase
+    .from('gamification_profiles')
+    .select('xp, current_streak, best_streak')
+    .eq('usuario_id', userId)
+    .maybeSingle();
+}
+
+export async function fetchGamificationAchievements(userId) {
+  if (!isSupabaseConfigured || !supabase) {
+    return { data: [], error: unavailableError() };
+  }
+
+  return supabase
+    .from('gamification_achievements')
+    .select('achievement_id, unlocked_at')
+    .eq('usuario_id', userId)
+    .order('unlocked_at', { ascending: false });
+}

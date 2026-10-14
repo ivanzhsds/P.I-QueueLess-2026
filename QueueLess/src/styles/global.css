@@ -1134,6 +1134,25 @@ h1, h2, .brand, .metric-card strong, .large-reading {
   text-align: center;
 }
 
+.gamification-rules {
+  display: grid;
+  gap: 10px;
+}
+
+.gamification-rules h2 {
+  font-size: 12px;
+}
+
+.gamification-rules ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text-muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
 .auth-page {
   display: flex;
   width: min(100%, 440px);
