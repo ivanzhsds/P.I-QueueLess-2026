@@ -2264,3 +2264,137 @@ body {
     max-height: calc(100dvh - 24px);
   }
 }
+
+.pwa-install-notice {
+  position: fixed;
+  z-index: 30;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  width: min(390px, calc(100vw - 32px));
+  align-items: start;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 12px 36px rgb(var(--shadow-rgb) / 20%);
+  animation: pwa-notice-enter 220ms ease-out both;
+}
+
+.pwa-install-icon {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  padding: 4px;
+  border-radius: 11px;
+  background: var(--brand-brown-soft);
+}
+
+.pwa-install-copy {
+  min-width: 0;
+}
+
+.pwa-install-copy h2 {
+  margin: 0;
+  color: var(--brand-primary);
+  font-size: 14px;
+}
+
+.pwa-install-copy p {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.pwa-install-copy .pwa-install-help {
+  margin-top: 8px;
+  color: var(--brand-primary-strong);
+  font-size: 11px;
+}
+
+.pwa-install-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pwa-install-actions button {
+  min-height: 34px;
+  border: 1px solid var(--brand-primary);
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.pwa-install-button {
+  padding: 6px 10px;
+  background: var(--brand-primary);
+  color: var(--surface);
+  font-size: 12px;
+}
+
+.pwa-install-button:hover {
+  background: var(--brand-primary-strong);
+}
+
+.pwa-dismiss-button {
+  display: grid;
+  width: 30px;
+  min-width: 30px;
+  place-items: center;
+  padding: 0;
+  background: var(--surface);
+  color: var(--brand-primary);
+  font-size: 20px;
+  line-height: 1;
+}
+
+.pwa-dismiss-button:hover {
+  background: var(--brand-surface);
+}
+
+@keyframes pwa-notice-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .pwa-install-notice {
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(12px, env(safe-area-inset-bottom));
+    width: min(390px, calc(100vw - 24px));
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 8px 9px;
+    padding: 12px;
+  }
+
+  .pwa-install-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .pwa-install-actions {
+    grid-column: 2;
+    justify-self: end;
+    gap: 4px;
+  }
+
+  .pwa-install-button {
+    padding-inline: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pwa-install-notice {
+    animation: none;
+  }
+}

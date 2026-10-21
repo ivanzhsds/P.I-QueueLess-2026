@@ -1,12 +1,14 @@
 import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
 import { AuthProvider } from './context/AuthContext';
+import PwaInstallNotice from './components/PwaInstallNotice';
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <AppRoutes />
+        <PwaInstallNotice />
       </AuthProvider>
     </BrowserRouter>
   );
